@@ -1,14 +1,34 @@
-<div class="col-sm-4 sidebar min-height">
-  <h1 class="column-header"><a href="#">{{i18n $.Lang "sports section"}}</a></h1>
-  <div class="fb-life-scores">
-    <!--
-      <ul class="list-group">
-        <li class="list-group-item">Hada waxaa ciyaaraya <a href="#">Man-United & Chelsea</a></li>
-        <li class="list-group-item">4 daqiiqo kahor waxaa 2-1 ku dhamaaday kulan udhexeeyay <a href="#">Real Madrid & Atletico</a></li>
-        <li class="list-group-item">Waxaa 1 saac ka hartay ciyaar udhexeyso <a href="#">Barcelona & Man-City</a></li>
-      </ul>
-    -->
-    <h3 class="center-text">Filo Goor Dhow!</h3>
-    <h3 class="center-text">Coming Soon!</h3>
+<div class="col-sm-3 sidebar min-height">
+  <h1 class="column-header"><a href="#">{{i18n $.Lang "editor's pick"}}</a></h1>
+
+  <div class="thumbnail">
+    <img src="static/img/galaxy.jpg" alt="...">
+    <div class="caption">
+      <h4>here is some text to show you what text looks like in here.</h4>
+    </div>
   </div>
+
+  <div class="thumbnail">
+    <img src="static/img/Ocean3.jpg" alt="...">
+    <div class="caption">
+      <h4>here is some text to show you what text looks like in here.</h4>
+    </div>
+  </div>
+
+  <h1 class="column-header"><a href="#">{{i18n $.Lang "categories"}}</a></h1>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <span class="badge">14</span>
+      {{i18n $.Lang "category %d" 1}}
+    </li>
+    <li class="list-group-item">
+      <span class="badge">11</span>
+      {{i18n $.Lang "category %d" 2}}
+    </li>
+    <li class="list-group-item">
+      <span class="badge">10</span>
+      {{i18n $.Lang "category %d" 3}}
+    </li>
+  </ul>
+
 </div>

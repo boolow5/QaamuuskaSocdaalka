@@ -1,13 +1,60 @@
-<h1 class="column-header"><a href="#">{{i18n $.Lang "news section"}}</a></h1>
+<h1 class="column-header"><a href="#">{{i18n $.Lang "latest"}}</a></h1>
 <div class="latest-news">
 
-  <ul class="list-group">
-    {{range $val := .NewsItems}}
-      <li class="list-group-item">
-        <a target="_blank" href="{{$val.WebsiteUrl}}">{{i18n $.Lang "website %s" $val.WebsiteName}}</a> {{i18n $.Lang "wrote"}} {{timeSince $val.CreatedAt $.Lang}} {{i18n $.Lang "before"}}:<br />
-        <h3><a href="{{$val.Link}}">{{$val.Title}}</a></h3>
-      </li>
-    {{end}}
-  </ul>
+  <div class="container-fluid">
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="static/img/galaxy.jpg" alt="...">
+        <div class="caption">
+          <h4>here is some text to show you what text looks like in here.</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="static/img/Ocean3.jpg" alt="...">
+        <div class="caption">
+          <h4>here is some text to show you what text looks like in here.</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="static/img/galaxy.jpg" alt="...">
+        <div class="caption">
+          <h4>here is some text to show you what text looks like in here.</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h1 class="column-header"><a href="#">{{i18n $.Lang "most popular"}}</a></h1>
+  <div class="container-fluid">
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="static/img/Ocean3.jpg" alt="...">
+        <div class="caption">
+          <h4>here is some text to show you what text looks like in here.</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="static/img/galaxy.jpg" alt="...">
+        <div class="caption">
+          <h4>here is some text to show you what text looks like in here.</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="static/img/Ocean3.jpg" alt="...">
+        <div class="caption">
+          <h4>here is some text to show you what text looks like in here.</h4>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
 </div>

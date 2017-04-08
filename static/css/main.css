@@ -1,5 +1,7 @@
 body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  background-image: url(../img/bg.png);
+  background-color: #eee;
 }
 div {
   padding: .4em;
@@ -35,7 +37,7 @@ footer {
   background: #89C999;
 }
 .blue-color {
-  background: #0093DE;
+  background: #020A31;/*#0093DE;*/
 }
 .blue-color a {
   color: #FFF;
@@ -45,7 +47,7 @@ a:hover {
   text-shadow: 0 0 4px #FFF;
 }
 .dark-blue-color {
-  background-color: #002020;
+  background-color: #020A31; /*#002020;*/
 }
 .column-header {
   color: #555;
@@ -72,7 +74,7 @@ a:hover {
   min-height: 20em;
 }
 .ocean-image-bg {
-  background-image:url(../img/Ocean3.jpg);
+  background-image:url(../img/galaxy.jpg);
   background-size:cover;
   background-position: center;
 }
@@ -104,6 +106,10 @@ h1.huge-banner {
 }
 .sidebar, .main-content {
   color: #999;
+  border: 1px solid #AAA;
+  margin-left: .3em;
+  margin-right: .3em;
+  background-color: #EEF;
 }
 .sidebar a, .main-content a {
   color: #0A593F;
