@@ -1,0 +1,128 @@
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+div {
+  padding: .4em;
+}
+.iweydi {
+  width: 10em;
+}
+.top-menu {
+  padding: 0;
+}
+.top-menu .navbar {
+  border-radius: 0;
+}
+footer {
+  color: #AAA;
+}
+.brand-and-logo img {
+  height: 2em;
+  width: 2em;
+  float: left;
+  margin-left: .5em;
+  margin-right: .5em;
+  margin-top: -0.5em;
+  border-radius: 0.25em;
+}
+.center-text {
+  text-align: center;
+}
+.min-height {
+  min-height: 10em;
+}
+.header-color {
+  background: #89C999;
+}
+.blue-color {
+  background: #0093DE;
+}
+.blue-color a {
+  color: #FFF;
+}
+a:hover {
+  color: #0093DE;
+  text-shadow: 0 0 4px #FFF;
+}
+.dark-blue-color {
+  background-color: #002020;
+}
+.column-header {
+  color: #555;
+  padding: .4em;
+  margin: -.5em;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.column-header a {
+  color: #555;
+}
+.column-header a:hover {
+  text-decoration: none;
+}
+.item-header h3 {
+  font-size: 1.4em;
+  margin: 0;
+}
+.wide-featured {
+  margin-top: -1.43em;
+  padding-top: 3em;
+  color: #fff;
+  min-height: 20em;
+}
+.ocean-image-bg {
+  background-image:url(../img/Ocean3.jpg);
+  background-size:cover;
+  background-position: center;
+}
+h1.huge-banner {
+  font-size: 5em;
+  text-align: center;
+  text-shadow: 0 0 4px #000;
+}
+.white-text {
+  color: #FFF;
+}
+.blue-text {
+  color: #0093DE;
+}
+.text-white-shadow {
+  text-shadow: 0 0 1px #FFF;
+}
+.text-black-shadow {
+  text-shadow: 0 0 2px #000;
+}
+.align-center {
+  text-align: center;
+}
+.bold {
+  font-weight: bold;
+}
+.allcaps {
+  text-transform: uppercase;
+}
+.sidebar, .main-content {
+  color: #999;
+}
+.sidebar a, .main-content a {
+  color: #0A593F;
+}
+.sidebar a:hover, .main-content a:hover {
+  color: #000; /* #D84A38;*/
+  text-decoration: none;
+}
+.nav-login-form {
+  margin-top: .7em;
+}
+.btn-small {
+  height: 1.8em;
+  padding: .1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-radius: 0;
+}
+.icon-bar {
+  background-color: #fff;
+  box-shadow: 0 0 1px #000;
+}
