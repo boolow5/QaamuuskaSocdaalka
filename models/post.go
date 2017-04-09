@@ -2,13 +2,23 @@ package models
 
 import "time"
 
+type Category struct {
+	Id         int       `json:"id" orm:"auto"`
+	Name       string    `json:"name" orm:"size(300)"`
+	PostsCount int       `json:"posts_count" orm:"default(0)"`
+	CreatedAt  time.Time `json:"created_at" orm:"auto_now_add;type(datetime)"`
+	UpdatedAt  time.Time `json:"updated_at" orm:"auto_now;type(datetime)"`
+}
+
 type Post struct {
 	Id            int       `json:"id" orm:"auto"`
 	Title         string    `json:"title" orm:"size(300)"`
 	Content       string    `json:"content" orm:"size(5000)"`
 	FeaturedImage *Image    `json:"featured_image" orm:"rel(fk)"`
+	Category      *Category `json:"category" orm:"rel(fk)"`
 	Views         int       `json:"views" orm:"default(0)"`
 	Author        *User     `json:"author" orm:"rel(fk)"`
+	SaveAsDraft   bool      `json:"save_as_draft"`
 	CreatedAt     time.Time `json:"created_at" orm:"auto_now_add;type(datetime)"`
 	UpdatedAt     time.Time `json:"updated_at" orm:"auto_now;type(datetime)"`
 }

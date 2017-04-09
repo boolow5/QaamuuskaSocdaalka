@@ -9,8 +9,7 @@ import (
 )
 
 var (
-	APP_ID       string
-	AUTO_MIGRATE bool
+	APP_ID string
 )
 
 func InitEnv() {

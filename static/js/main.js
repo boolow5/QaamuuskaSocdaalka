@@ -68,7 +68,7 @@ function translate(result, ids) {
 $("#logout").on("click", function(e){
   e.preventDefault();
   $.ajax({
-    url: "/logout",
+    url: "/bol-admin/logout",
     success: function(result) {
       console.log(result);
       //window.location.href = "http://localhost:8080";
@@ -78,11 +78,53 @@ $("#logout").on("click", function(e){
       } else if (result["success"]) {
         translate(result, ["#success > span.message"])
         ShowMessage("#success");
-        reloadAfter(5000)
+        reloadAfter(2000)
       }
     }
   });
 });
+
+// user-form
+$("#user-form").submit(function(e){
+  e.preventDefault();
+
+  console.log("Submiting login");
+  console.log(this.action);
+
+  SubmitForm("user-form", this.action, this.method);
+});
+
+function ResetForm(id) {
+  if ($("#"+id).length) {
+    $("#"+id)[0].reset()
+  }
+}
+
+function SubmitForm(id, url, method, refresh) {
+  $.ajax({
+    url: url,
+    type: method,
+    data: JSON.stringify(getFormData(id)),
+    contentType: "application/json",
+    success: function(result) {
+      console.log(result);
+      if (result["error"]) {
+        ShowMessage("error");
+        translate(result, ["#error > .message"])
+
+      } else if (result["success"]) {
+        ResetForm(id)
+        translate(result, ["#success > span.message"])
+        ShowMessage("#success");
+        console.log("after 3 seconds the page will reload");
+        if (refresh) {
+          reloadAfter(5000)
+          console.log("waited for 3 seconds");
+        }
+      }
+    }
+  });
+}
 
 // login form
 $("#login-form").submit(function(e){

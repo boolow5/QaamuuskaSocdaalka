@@ -54,10 +54,12 @@ func SetTemplate(tplName string, controller *beego.Controller) {
 func GetCurrentUser(controller *beego.Controller) string {
 	// check for session username
 	username := controller.GetSession("username")
-	token := controller.GetSession("token")
-	if username != nil && token != nil {
+	role := controller.GetSession("role")
+	if username != nil {
 		// if found set the CurrentUser template variable and return username
 		controller.Data["CurrentUser"] = username
+		controller.Data["CurrentUserRole"] = role
+
 		return username.(string)
 	}
 
