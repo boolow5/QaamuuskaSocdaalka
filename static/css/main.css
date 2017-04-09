@@ -18,6 +18,12 @@ div {
 footer {
   color: #AAA;
 }
+footer ul {
+  list-style: none;
+}
+.copyright {
+  border-top: 1px solid #AAA;
+}
 .brand-and-logo img {
   height: 2em;
   width: 2em;

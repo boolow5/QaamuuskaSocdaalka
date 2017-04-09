@@ -1,5 +1,7 @@
 <!-- Bootstrap -->
 <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="static/font-awesome/css/font-awesome.css" rel="stylesheet">
+
 <link href="static/css/main.css" rel="stylesheet">
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins and responsiveSlides) -->
@@ -36,15 +38,15 @@
       nav: true,             // Boolean: Show navigation, true or false
       speed: 500,            // Integer: Speed of the transition, in milliseconds
       timeout: 3000,          // Integer: Time between slide transitions, in milliseconds
-      pause: false,           // Boolean: Pause on hover, true or false
+      pause: true,           // Boolean: Pause on hover, true or false
       prevText: " << ",   // String: Text for the "previous" button
       nextText: " >> ",       // String: Text for the "next" button
       namespace: "callbacks",   // String: Change the default namespace used
       before: function () {
-        console.log("before");
+        // console.log("before");
       },
       after: function () {
-        console.log("after");
+        // console.log("after");
       }
       });
     });
@@ -57,6 +59,8 @@
     width: 100%;
     padding: 0;
     margin: 0;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
   }
 
   .rslides li {
@@ -78,7 +82,8 @@
     background-size: cover;
     background-position: center;
     display: block;
-    min-height: 30em;
+    min-height: 20em;
+    max-height: 30em;
     float: left;
     width: 100%;
     border: 0;
@@ -89,11 +94,36 @@
   .rslides .img h1 {
     text-transform: uppercase;
   }
+  .rslides a:hover {
+    text-shadow: 0 0 2px #000;
+  }
   .rslides li {
     max-height: 30em;
   }
 
+
   a.next {
     float: right;
+    //border-top-left-radius: 1em;
+    border-bottom-right-radius: 1em;
   }
+
+  a.prev {
+    float: left;
+    border-bottom-left-radius: 1em;
+    //border-top-right-radius: 1em;
+  }
+
+  a.next, a.prev {
+    color: #FFF;
+    font-weight: bolder;
+    background-color: #020A31;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+  a.next:hover, a.prev:hover {
+    text-decoration: none;
+
+  }
+
 </style>

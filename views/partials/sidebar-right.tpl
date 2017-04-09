@@ -1,5 +1,5 @@
 <div class="col-sm-3 sidebar min-height">
-  <h1 class="column-header"><a href="#">{{i18n $.Lang "editor's pick"}}</a></h1>
+  <h1 class="column-header"><a href="#"><i class="fa fa-th-list"></i> {{i18n $.Lang "editor's pick"}}</a></h1>
 
   <div class="thumbnail">
     <img src="static/img/galaxy.jpg" alt="...">
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <h1 class="column-header"><a href="#">{{i18n $.Lang "categories"}}</a></h1>
+  <h1 class="column-header"><a href="#"><i class="fa fa-bars"></i> {{i18n $.Lang "categories"}}</a></h1>
   <ul class="list-group">
     <li class="list-group-item">
       <span class="badge">14</span>

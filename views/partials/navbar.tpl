@@ -8,16 +8,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand brand-and-logo" href="#"><img src="static/favicon/favicon-96x96.png" alt="logo"> iWeydi</a>
+      <a class="navbar-brand brand-and-logo" href="#"><img src="static/favicon/favicon-96x96.png" alt="logo"> Qaamuuska</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/">{{i18n $.Lang "home"}} <span class="sr-only">(current)</span></a></li>
-        <li><a href="/countries">{{i18n $.Lang "countries"}}</a></li>
-        <li><a href="/cities">{{i18n $.Lang "cities"}}</a></li>
-        <li><a href="/contactus">{{i18n $.Lang "contact us"}}</a></li>
+        <li class="active"><a href="/"><i class="fa fa-home fa-fw"></i> {{i18n $.Lang "home"}} <span class="sr-only">(current)</span></a></li>
+        <li><a href="/countries"><i class="fa fa-globe fa-fw"></i> {{i18n $.Lang "countries"}}</a></li>
+        <li><a href="/cities"><i class="fa fa-map-marker fa-fw"></i> {{i18n $.Lang "cities"}}</a></li>
+        <li><a href="/contactus"><i class="fa fa-phone fa-fw"></i> {{i18n $.Lang "contact us"}}</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
