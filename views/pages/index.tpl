@@ -55,6 +55,75 @@
       </div>
     </div>
 
+    <h1 class="column-header"><a href="#">{{i18n $.Lang "other posts"}}</a></h1>
+    <div class="container-fluid">
+      <div class="col-sm-3">
+        <div class="thumbnail">
+          <img src="static/img/Ocean3.jpg" alt="...">
+          <div class="caption">
+            <h4>here is some text to show you what text looks like in here.</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="thumbnail">
+          <img src="static/img/Ocean3.jpg" alt="...">
+          <div class="caption">
+            <h4>here is some text to show you what text looks like in here.</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="thumbnail">
+          <img src="static/img/Ocean3.jpg" alt="...">
+          <div class="caption">
+            <h4>here is some text to show you what text looks like in here.</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="thumbnail">
+          <img src="static/img/Ocean3.jpg" alt="...">
+          <div class="caption">
+            <h4>here is some text to show you what text looks like in here.</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="thumbnail">
+          <img src="static/img/Ocean3.jpg" alt="...">
+          <div class="caption">
+            <h4>here is some text to show you what text looks like in here.</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="thumbnail">
+          <img src="static/img/Ocean3.jpg" alt="...">
+          <div class="caption">
+            <h4>here is some text to show you what text looks like in here.</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="thumbnail">
+          <img src="static/img/Ocean3.jpg" alt="...">
+          <div class="caption">
+            <h4>here is some text to show you what text looks like in here.</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="thumbnail">
+          <img src="static/img/Ocean3.jpg" alt="...">
+          <div class="caption">
+            <h4>here is some text to show you what text looks like in here.</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </div>

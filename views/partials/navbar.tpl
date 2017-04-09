@@ -14,10 +14,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">{{i18n $.Lang "home"}} <span class="sr-only">(current)</span></a></li>
-        <li><a href="/suaalaha">{{i18n $.Lang "questions"}}</a></li>
-        <li><a href="/wararka">{{i18n $.Lang "news"}}</a></li>
-        <li><a href="/ciyaaraha">{{i18n $.Lang "sports"}}</a></li>
+        <li class="active"><a href="/">{{i18n $.Lang "home"}} <span class="sr-only">(current)</span></a></li>
+        <li><a href="/countries">{{i18n $.Lang "countries"}}</a></li>
+        <li><a href="/cities">{{i18n $.Lang "cities"}}</a></li>
+        <li><a href="/contactus">{{i18n $.Lang "contact us"}}</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

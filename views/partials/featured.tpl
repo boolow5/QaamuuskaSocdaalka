@@ -1,8 +1,40 @@
-<div class="wide-featured min-height ocean-image-bg">
-  <h1 class="huge-banner"><span class="blue-text">i</span><span class="white-text">Weydi</span></h1>
-  <h3 class="text-black-shadow align-center bold">
-    Waa albaabka xogta iyo macluumaadka ee shabakadda internet-ka.<br>
-    Weydi su'aalahaga ama raadi wararka laga qorayo Soomaalida.<br>
-    Ama kala soco ciyaaraha hadda dhacayo.
-  </h3>
+<div class="slider">
+	<!-- Slideshow -->
+	<div class="callbacks_container" >
+		<ul class="rslides" id="slider">
+			<li>
+        <div class="img" style="background-image: url(static/img/galaxy.jpg)">
+  				<div class="caption">
+  					<h1>Kownka baaxadiisu waa weyn tahay</h1>
+  					<span >Lorem ipsum dolor sit amet</span>
+  				</div>
+        </div>
+			</li>
+			<li>
+        <div class="img" style="background-image: url(static/img/Ocean3.jpg)">
+  				<div class="caption">
+  					<h1>Noolayaasha inta badan waxay ku nool yihiin salka badweynta</h1>
+  					<span >Lorem ipsum dolor sit amet</span>
+  				</div>
+        </div>
+			</li>
+			<li>
+        <div class="img" style="background-image: url(static/img/galaxy.jpg)">
+  				<div class="caption">
+  					<h1>Warki hore war soo dhaaf</h1>
+  					<span >Lorem ipsum dolor sit amet</span>
+  				</div>
+        </div>
+			</li>
+      <li>
+        <div class="img" style="background-image: url(static/img/Ocean3.jpg)">
+  				<div class="caption">
+  					<h1>CAR DEALER WEBSITE NAME</h1>
+  					<span >Lorem ipsum dolor sit amet</span>
+  				</div>
+        </div>
+			</li>
+		</ul>
+	</div>
+	<div class="clear"></div>
 </div>
