@@ -20,12 +20,12 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
           {{if .LoggedIn }}
-            <a href="#">{{i18n .Lang "welcome"}}, {{.CurrentUser|title}}</a>
+            <a href="#"><i class="fa fa-user fa-fw"></i> {{i18n .Lang "welcome"}}, {{.CurrentUser|title}}</a>
           {{end}}
         </li>
         <li>
           {{if .LoggedIn }}
-            <a href="#" id="logout">Logout</a>
+            <a href="#" id="logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
           {{else}}
             <form id="login-form" class="form nav-login-form" method="post" action="/bol-admin/login">
               {{ .xsrfdata }}

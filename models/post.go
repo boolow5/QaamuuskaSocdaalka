@@ -19,7 +19,9 @@ type Post struct {
 	Views         int       `json:"views" orm:"default(0)"`
 	Author        *User     `json:"author" orm:"rel(fk)"`
 	SaveAsDraft   bool      `json:"save_as_draft"`
+	Show          bool      `json:"show" orm:"default(1)"`
 	Language      string    `json:"language" orm:"size(20)"`
+	PublishedDate time.Time `json:"published_date" orm:"auto_now;type(datetime)"`
 	CreatedAt     time.Time `json:"created_at" orm:"auto_now_add;type(datetime)"`
 	UpdatedAt     time.Time `json:"updated_at" orm:"auto_now;type(datetime)"`
 }
