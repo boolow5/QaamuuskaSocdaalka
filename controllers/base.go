@@ -138,6 +138,7 @@ func (this *BaseController) setLangVer() bool {
 	this.Data["Lang"] = curLang.Lang
 	this.Data["CurLang"] = curLang.Name
 	this.Data["RestLangs"] = restLangs
+	this.Data["AllLangs"] = append(restLangs, &curLang)
 
 	return isNeedRedir
 }

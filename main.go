@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -18,7 +19,13 @@ func main() {
 	beego.AddFuncMap("i18n", i18n.Tr)
 	beego.AddFuncMap("neq", notEqual)
 	beego.AddFuncMap("timeSince", timeSince)
+	beego.AddFuncMap("title", strings.Title)
+	beego.AddFuncMap("lessthan", lessthan)
 	beego.Run()
+}
+
+func lessthan(number1, number2 int) bool {
+	return number1 < number2
 }
 
 func notEqual(val1, val2 interface{}) bool {

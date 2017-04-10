@@ -47,6 +47,29 @@ func init() {
 		if err != nil {
 			Verbose(err.Error())
 		}
+		o = orm.NewOrm()
+		fmt.Println("Initializing Admin privileges...")
+		profile := Profile{FirstName: "Mahdi", LastName: "Bolow"}
+		user := User{Username: "boolow5", Role: "admin", Profile: &profile}
+		user.SetPassword("sharaf.143")
+		if !UserExists(user.Username) {
+			o.Begin()
+			i, err := o.Insert(user.Profile)
+			if err != nil {
+				o.Rollback()
+			} else if i < 1 {
+				o.Rollback()
+			} else {
+				i, err = o.Insert(&user)
+				if err != nil {
+					o.Rollback()
+				} else if i < 1 {
+					o.Rollback()
+				} else {
+					o.Commit()
+				}
+			}
+		}
 	}
 	o = orm.NewOrm()
 	o.Raw("PRAGMA foreign_keys = ON")

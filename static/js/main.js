@@ -35,7 +35,11 @@ function getFormData(formId){
   for (var i=0, ii = frm.length; i< ii; ++i) {
     var input = frm[i];
     if (input.name) {
-      data[input.name] = input.value;
+      if (input.type == "checkbox") {
+        data[input.name] = input.checked;
+      } else {
+        data[input.name] = input.value;
+      }
     }
   }
   console.log(data);
@@ -94,6 +98,24 @@ $("#user-form").submit(function(e){
   SubmitForm("user-form", this.action, this.method);
 });
 
+// user-form
+$("#category-form").submit(function(e){
+  e.preventDefault();
+  SubmitForm("category-form", this.action, this.method);
+});
+
+// user-form
+$("#post-form").submit(function(e){
+  e.preventDefault();
+  SubmitForm("post-form", this.action, this.method);
+});
+
+// image-form
+$("#image-form").submit(function(e){
+  e.preventDefault();
+  SubmitForm("image-form", this.action, this.method);
+});
+
 function ResetForm(id) {
   if ($("#"+id).length) {
     $("#"+id)[0].reset()
@@ -117,7 +139,7 @@ function SubmitForm(id, url, method, refresh) {
         translate(result, ["#success > span.message"])
         ShowMessage("#success");
         console.log("after 3 seconds the page will reload");
-        if (refresh) {
+        if (refresh === true) {
           reloadAfter(5000)
           console.log("waited for 3 seconds");
         }

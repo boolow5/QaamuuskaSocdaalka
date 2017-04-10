@@ -8,19 +8,31 @@ import (
 func GetCategories() ([]*Category, error) {
 	categories := []*Category{}
 	var err error
-	_, err = o.Raw("SELECT * FROM categories").QueryRows(&categories)
+	_, err = o.QueryTable("category").OrderBy("-id").All(&categories)
 
 	if err != nil {
-		Verbose("GetNewsItems: %v", err)
+		Verbose("GetCategories: %v", err)
 		return categories, err
 	}
 	return categories, nil
 }
 
+func GetImages() ([]*Image, error) {
+	images := []*Image{}
+	var err error
+	_, err = o.QueryTable("images").OrderBy("-id").All(&images)
+
+	if err != nil {
+		Verbose("GetImages: %v", err)
+		return images, err
+	}
+	return images, nil
+}
+
 // GetUserByUsername fetchs a user by its username field
 func GetUsers() ([]*User, error) {
 	users := []*User{}
-	_, err := o.QueryTable("user").All(&users)
+	_, err := o.QueryTable("user").OrderBy("-id").All(&users)
 	if err != nil {
 		return users, err
 	}

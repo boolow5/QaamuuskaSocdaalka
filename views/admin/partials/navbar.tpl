@@ -20,7 +20,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
           {{if .LoggedIn }}
-            <a href="#">{{i18n .Lang "welcome"}}, {{.CurrentUser}}</a>
+            <a href="#">{{i18n .Lang "welcome"}}, {{.CurrentUser|title}}</a>
           {{end}}
         </li>
         <li>

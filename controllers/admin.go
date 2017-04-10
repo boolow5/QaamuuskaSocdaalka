@@ -23,7 +23,9 @@ func (c *AdminController) Get() {
 		itemsPerPage = 20
 	}
 	c.Data["Posts"], _ = models.GetPosts(page*itemsPerPage, itemsPerPage)
+	c.Data["Drafts"], _ = models.GetDrafts(page*itemsPerPage, itemsPerPage)
 	c.Data["Categories"], _ = models.GetCategories()
+	c.Data["Images"], _ = models.GetImages()
 	c.Data["Users"], _ = models.GetUsers()
 	c.Data["message"] = flash
 	SetAdminTemplate("admin/index.tpl", &c.Controller)
@@ -48,6 +50,7 @@ func (this *AdminController) Login() {
 		Password: requestBody.Password,
 	}
 	err, authenticatedUser := user.Authenticate()
+	fmt.Printf("Authentication:\nError: %v\nUser: %v", err, authenticatedUser)
 	if err != nil {
 		responseMessage["error"] = "user authentication error"
 		responseMessage["explation"] = err.Error()
@@ -57,7 +60,7 @@ func (this *AdminController) Login() {
 	}
 	if authenticatedUser.Role == "" {
 		responseMessage["error"] = "incorrect username or password"
-		responseMessage["explation"] = err.Error()
+		responseMessage["explation"] = "empty role"
 		this.Data["json"] = responseMessage
 		this.ServeJSON()
 		return
@@ -96,7 +99,7 @@ func (this *AdminController) AddUser() {
 		MiddleName string `json:"middle_name"`
 		LastName   string `json:"last_name"`
 		Email      string `json:"email"`
-		IsAdmin    string `json:"admin"`
+		IsAdmin    bool   `json:"admin"`
 	}{}
 
 	responseMessage := map[string]interface{}{}
@@ -118,8 +121,7 @@ func (this *AdminController) AddUser() {
 	}
 	user.SetPassword(requestBody.Password)
 	user.Role = "normal"
-	is_admin, _ := strconv.ParseBool(requestBody.IsAdmin)
-	if is_admin {
+	if requestBody.IsAdmin {
 		user.Role = "admin"
 	}
 
@@ -139,6 +141,112 @@ func (this *AdminController) AddUser() {
 		return
 	}
 	responseMessage["success"] = "added-user"
+	this.Data["json"] = responseMessage
+	this.ServeJSON()
+}
+
+func (this *AdminController) AddPost() {
+	post := struct {
+		Title           string `json:"title"`
+		Content         string `json:"content"`
+		CategoryId      string `json:"category"`
+		FeaturedImageId string `json:"featured_image"`
+		SaveAsDraft     bool   `json:"save_as_draft"`
+	}{}
+
+	responseMessage := map[string]interface{}{}
+	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&post)
+	if err != nil {
+		responseMessage["error"] = "post parsing error"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+
+	newPost := models.Post{
+		Title:       post.Title,
+		Content:     post.Content,
+		SaveAsDraft: post.SaveAsDraft,
+	}
+
+	category_id, _ := strconv.Atoi(post.CategoryId)
+	image_id, _ := strconv.Atoi(post.FeaturedImageId)
+	newPost.Category = &models.Category{Id: category_id}
+	newPost.FeaturedImage = &models.Image{Id: image_id}
+
+	CurrentUser := this.GetSession("username")
+	if CurrentUser == nil {
+		responseMessage["error"] = "post-not-saved"
+		responseMessage["explation"] = "invalid author"
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+
+	_, newPost.Author = models.GetUserByUsername(CurrentUser.(string))
+
+	saved := models.SaveItem(&newPost)
+	if !saved {
+		responseMessage["error"] = "post-not-saved"
+		responseMessage["explation"] = ""
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+	responseMessage["success"] = "added-post"
+	this.Data["json"] = responseMessage
+	this.ServeJSON()
+}
+
+func (this *AdminController) AddCategory() {
+	category := models.Category{}
+
+	responseMessage := map[string]interface{}{}
+	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&category)
+	if err != nil {
+		responseMessage["error"] = "category parsing error"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+
+	saved := models.SaveItem(&category)
+	if !saved {
+		responseMessage["error"] = "category-not-saved"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+	responseMessage["success"] = "added-category"
+	this.Data["json"] = responseMessage
+	this.ServeJSON()
+}
+
+func (this *AdminController) AddImage() {
+	image := models.Image{}
+
+	responseMessage := map[string]interface{}{}
+	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&image)
+	if err != nil {
+		responseMessage["error"] = "image parsing error"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+
+	saved := models.SaveItem(&image)
+	if !saved {
+		responseMessage["error"] = "image-not-saved"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+	responseMessage["success"] = "added-image"
 	this.Data["json"] = responseMessage
 	this.ServeJSON()
 }

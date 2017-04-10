@@ -6,13 +6,33 @@ func GetPosts(offset, limit int) ([]*Post, error) {
 	news_items := []*Post{}
 	var err error
 	if offset == 0 && limit == 0 {
-		_, err = o.Raw("SELECT * FROM news_item").QueryRows(&news_items)
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY id DESC").QueryRows(&news_items)
 	} else if offset == 0 {
-		_, err = o.Raw("SELECT * FROM news_item LIMIT ?", limit).QueryRows(&news_items)
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY id DESC LIMIT ?", limit).QueryRows(&news_items)
 	} else if limit == 0 {
-		_, err = o.Raw("SELECT * FROM news_item OFFSET ? ", offset).QueryRows(&news_items)
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY id DESC OFFSET ? ", offset).QueryRows(&news_items)
 	} else {
-		_, err = o.Raw("SELECT * FROM news_item LIMIT ? OFFSET ? ", limit, offset).QueryRows(&news_items)
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY id DESC LIMIT ? OFFSET ? ", limit, offset).QueryRows(&news_items)
+	}
+
+	if err != nil {
+		Verbose("GetNewsItems: %v", err)
+		return news_items, err
+	}
+	return news_items, nil
+}
+
+func GetDrafts(offset, limit int) ([]*Post, error) {
+	news_items := []*Post{}
+	var err error
+	if offset == 0 && limit == 0 {
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 1 ORDER BY id DESC").QueryRows(&news_items)
+	} else if offset == 0 {
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 1 ORDER BY id DESC LIMIT ?", limit).QueryRows(&news_items)
+	} else if limit == 0 {
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 1 ORDER BY id DESC OFFSET ? ", offset).QueryRows(&news_items)
+	} else {
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 1 ORDER BY id DESC LIMIT ? OFFSET ? ", limit, offset).QueryRows(&news_items)
 	}
 
 	if err != nil {
@@ -38,6 +58,7 @@ func SaveItem(m MyModel) bool {
 	}
 	i, err := o.Insert(m)
 	if i < 1 || err != nil {
+		fmt.Println(err.Error())
 		return false
 	}
 	return true
