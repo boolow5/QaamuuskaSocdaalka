@@ -27,19 +27,19 @@
       {{end}}
     </div>
 
-    
+
     <div class="messages">
-      <div id="error" class="alert alert-danger alert-dismissible hidden" role="alert">
+      <div id="error" class="alert alert-danger alert-dismissible{{if .message.error}}{{else}} hidden{{end}}" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Error!</strong> <span class="message"></span>
+        <strong>{{i18n $.Lang "error"}}!</strong> <span class="message">{{.message.error}}</span>
       </div>
-      <div id="warning" class="alert alert-warning alert-dismissible hidden" role="alert">
+      <div id="warning" class="alert alert-warning alert-dismissible{{if .message.warning}}{{else}} hidden{{end}}" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Warning!</strong> <span class="message"></span>
+        <strong>{{i18n $.Lang "warning"}}!</strong> <span class="message">{{.message.warning}}</span>
       </div>
-      <div id="success" class="alert alert-success alert-dismissible hidden" role="alert">
+      <div id="success" class="alert alert-success alert-dismissible{{if .message.success}}{{else}} hidden{{end}}" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Success!</strong> <span class="message"></span>
+        <strong>{{i18n $.Lang "success"}}!</strong> <span class="message">{{.message.success}}</span>
       </div>
     </div>
 

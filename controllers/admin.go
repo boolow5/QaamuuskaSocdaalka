@@ -4,10 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"io/ioutil"
+	"os"
 	"strconv"
 
 	"github.com/astaxie/beego"
+	"github.com/beego/i18n"
 	"github.com/boolow5/QaamuuskaSocdaalka/models"
+	"github.com/boolow5/bolow/bolOs"
 )
 
 type AdminController struct {
@@ -27,7 +31,7 @@ func (c *AdminController) Get() {
 	c.Data["Categories"], _ = models.GetCategories()
 	c.Data["Images"], _ = models.GetImages()
 	c.Data["Users"], _ = models.GetUsers()
-	c.Data["message"] = flash
+	c.Data["message"] = flash.Data
 	SetAdminTemplate("admin/index.tpl", &c.Controller)
 }
 
@@ -117,6 +121,7 @@ func (this *AdminController) AddUser() {
 			FirstName:  requestBody.FirstName,
 			MiddleName: requestBody.MiddleName,
 			LastName:   requestBody.LastName,
+			Email:      requestBody.Email,
 		},
 	}
 	user.SetPassword(requestBody.Password)
@@ -226,29 +231,95 @@ func (this *AdminController) AddCategory() {
 }
 
 func (this *AdminController) AddImage() {
+	fmt.Println("AddImage")
+	flash := beego.NewFlash()
 	image := models.Image{}
 
-	responseMessage := map[string]interface{}{}
-	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&image)
+	imageTypes := []string{"image/jpeg", "image/png", "image/gif"}
+	isImage := false
+
+	// get the image file
+	file, header, err := this.GetFile("file")
 	if err != nil {
-		responseMessage["error"] = "image parsing error"
-		responseMessage["explation"] = err.Error()
-		this.Data["json"] = responseMessage
-		this.ServeJSON()
+		flash.Error(i18n.Tr(this.Lang, "upload error") + "\n" + err.Error())
+		flash.Store(&this.Controller)
+		this.Redirect("/bol-admin", 302)
 		return
 	}
+	if file != nil {
+		fileName := header.Filename
+		fileType := header.Header.Get("Content-Type")
+		fmt.Println("fileName", fileName)
+		fmt.Println("fileType", fileType)
+
+		for _, val := range imageTypes {
+			if val == fileType {
+				isImage = true
+				break
+			}
+		}
+	}
+
+	if !isImage {
+		flash.Error(i18n.Tr(this.Lang, "file not image"))
+		flash.Store(&this.Controller)
+		this.Redirect("/bol-admin", 302)
+		return
+	}
+	// save the file
+	uploadsDir := beego.AppConfig.String("uploads")
+	shortName := header.Filename
+	targetFile := uploadsDir + shortName
+	// check a file with the same name exists
+	for bolOs.FileExists(targetFile) {
+		targetFile, shortName = bolOs.GenerateUniqueFileName(targetFile, "/")
+	}
+
+	// create file first
+	outputFile, err := os.Create(targetFile)
+	defer outputFile.Close()
+	if err != nil {
+		flash.Error(i18n.Tr(this.Lang, "creating file failed") + "\n" + err.Error())
+		flash.Store(&this.Controller)
+		this.Redirect("/bol-admin", 302)
+		return
+	}
+
+	if file != nil {
+		fmt.Println("Target File:", targetFile)
+		data, err := ioutil.ReadAll(file)
+		if err != nil {
+			flash.Error(i18n.Tr(this.Lang, "reading file failed") + "\n" + err.Error())
+			flash.Store(&this.Controller)
+			this.Redirect("/bol-admin", 302)
+			return
+		}
+
+		err = ioutil.WriteFile(targetFile, data, 644)
+		// err = this.SaveToFile(fileName, targetFile)
+		if err != nil {
+			flash.Error(i18n.Tr(this.Lang, "saving file failed") + "\n" + err.Error())
+			flash.Store(&this.Controller)
+			this.Redirect("/bol-admin", 302)
+			return
+		}
+	}
+
+	image.Title = this.GetString("title")
+	image.Description = this.GetString("description")
+	image.Url = "/static/uploads/" + shortName
 
 	saved := models.SaveItem(&image)
 	if !saved {
-		responseMessage["error"] = "image-not-saved"
-		responseMessage["explation"] = err.Error()
-		this.Data["json"] = responseMessage
-		this.ServeJSON()
+		flash.Error(i18n.Tr(this.Lang, "image not saved"))
+		flash.Store(&this.Controller)
+		this.Redirect("/bol-admin", 302)
 		return
 	}
-	responseMessage["success"] = "added-image"
-	this.Data["json"] = responseMessage
-	this.ServeJSON()
+
+	flash.Success(i18n.Tr(this.Lang, "image saved"))
+	flash.Store(&this.Controller)
+	this.Redirect("/bol-admin", 302)
 }
 
 func SetAdminTemplate(tplName string, controller *beego.Controller) {

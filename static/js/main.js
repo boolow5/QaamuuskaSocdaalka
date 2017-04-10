@@ -37,6 +37,8 @@ function getFormData(formId){
     if (input.name) {
       if (input.type == "checkbox") {
         data[input.name] = input.checked;
+      } else if (input.type== "file") {
+        data[input.name] = input.value.replace(/C:\\fakepath\\/i, '') // input.value.split('\\').pop();
       } else {
         data[input.name] = input.value;
       }
@@ -95,27 +97,29 @@ $("#user-form").submit(function(e){
   console.log("Submiting login");
   console.log(this.action);
 
-  SubmitForm("user-form", this.action, this.method);
+  SubmitForm("user-form", this.action, this.method, true);
 });
 
 // user-form
 $("#category-form").submit(function(e){
   e.preventDefault();
-  SubmitForm("category-form", this.action, this.method);
+  SubmitForm("category-form", this.action, this.method, true);
 });
 
 // user-form
 $("#post-form").submit(function(e){
   e.preventDefault();
-  SubmitForm("post-form", this.action, this.method);
+  SubmitForm("post-form", this.action, this.method, true);
 });
 
 // image-form
+/*
 $("#image-form").submit(function(e){
   e.preventDefault();
-  SubmitForm("image-form", this.action, this.method);
+  console.log('submit image-form');
+  SubmitForm("image-form", this.action, this.method, true);
 });
-
+*/
 function ResetForm(id) {
   if ($("#"+id).length) {
     $("#"+id)[0].reset()
@@ -130,19 +134,28 @@ function SubmitForm(id, url, method, refresh) {
     contentType: "application/json",
     success: function(result) {
       console.log(result);
-      if (result["error"]) {
-        ShowMessage("error");
-        translate(result, ["#error > .message"])
+      console.log('Success');
+      if (result) {
+        if (result["error"]) {
+          ShowMessage("error");
+          translate(result, ["#error > .message"])
 
-      } else if (result["success"]) {
-        ResetForm(id)
-        translate(result, ["#success > span.message"])
-        ShowMessage("#success");
-        console.log("after 3 seconds the page will reload");
-        if (refresh === true) {
-          reloadAfter(5000)
-          console.log("waited for 3 seconds");
+        } else if (result["success"]) {
+          ResetForm(id)
+          translate(result, ["#success > span.message"])
+          ShowMessage("#success");
+          console.log("after 3 seconds the page will reload");
+          if (refresh === true) {
+            reloadAfter(5000)
+            console.log("waited for 3 seconds");
+          }
         }
+      }
+    },
+    error: function(result) {
+      console.log('Error');
+      if (result) {
+        console.log(result);
       }
     }
   });

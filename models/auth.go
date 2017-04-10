@@ -54,6 +54,7 @@ type Profile struct {
 	FirstName  string `json:"first_name" orm:"size(30)"`
 	MiddleName string `json:"middle_name" orm:"size(30)"`
 	LastName   string `json:"last_name" orm:"size(30)"`
+	Email      string `json:"email" orm:"size(50)"`
 }
 
 func (this *Profile) TableName() string {

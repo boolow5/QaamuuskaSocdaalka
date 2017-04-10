@@ -22,7 +22,7 @@ func (c *MainController) Get() {
 		itemsPerPage = 20
 	}
 	c.Data["Posts"], _ = models.GetPosts(page*itemsPerPage, itemsPerPage)
-	c.Data["message"] = flash
+	c.Data["message"] = flash.Data
 	SetTemplate("pages/index.tpl", &c.Controller)
 }
 
@@ -59,7 +59,7 @@ func GetCurrentUser(controller *beego.Controller) string {
 		// if found set the CurrentUser template variable and return username
 		controller.Data["CurrentUser"] = username
 		controller.Data["CurrentUserRole"] = role
-
+		controller.Data["IsAdmin"] = role == "admin"
 		return username.(string)
 	}
 
