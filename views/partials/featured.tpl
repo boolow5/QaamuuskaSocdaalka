@@ -2,47 +2,19 @@
 	<!-- Slideshow -->
 	<div class="callbacks_container" >
 		<ul class="rslides" id="slider">
+			{{range $index, $val := .LatestPosts}}
 			<li>
 				<a href="#">
-	        <div class="img" style="background-image: url(static/img/galaxy.jpg)">
+	        <div class="img" style="background-image: url({{$val.FeaturedImage.Url}})">
 	  				<div class="caption">
-	  					<h1>Kownka baaxadiisu waa weyn tahay</h1>
-	  					<span >Lorem ipsum dolor sit amet</span>
+	  					<h1>{{shorten_words $val.Title 10}}</h1>
+	  					<span >{{shorten_words $val.Content 20}}</span>
 	  				</div>
 	        </div>
 				</a>
 			</li>
-			<li>
-				<a href="#">
-	        <div class="img" style="background-image: url(static/img/Ocean3.jpg)">
-	  				<div class="caption">
-	  					<h1>Noolayaasha inta badan waxay ku nool yihiin salka badweynta</h1>
-	  					<span >Lorem ipsum dolor sit amet</span>
-	  				</div>
-	        </div>
-				</a>
-			</li>
-			<li>
-				<a href="#">
-	        <div class="img" style="background-image: url(static/img/galaxy.jpg)">
-	  				<div class="caption">
-	  					<h1>Warki hore war soo dhaaf</h1>
-	  					<span >Lorem ipsum dolor sit amet</span>
-	  				</div>
-	        </div>
-				</a>
-			</li>
-      <li>
-				<a href="#">
-	        <div class="img" style="background-image: url(static/img/Ocean3.jpg)">
-	  				<div class="caption">
-	  					<h1>CAR DEALER WEBSITE NAME</h1>
-	  					<span >Lorem ipsum dolor sit amet</span>
-	  				</div>
-	        </div>
-				</a>
-			</li>
+			{{end}}
 		</ul>
 	</div>
-	
+
 </div>

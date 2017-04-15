@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"strings"
 	"time"
 
@@ -11,6 +12,7 @@ import (
 	"github.com/boolow5/QaamuuskaSocdaalka/g"
 	_ "github.com/boolow5/QaamuuskaSocdaalka/routers"
 	"github.com/boolow5/bolow/boldate"
+	"github.com/russross/blackfriday"
 )
 
 func main() {
@@ -21,7 +23,29 @@ func main() {
 	beego.AddFuncMap("timeSince", timeSince)
 	beego.AddFuncMap("title", strings.Title)
 	beego.AddFuncMap("lessthan", lessthan)
+	beego.AddFuncMap("shorten_words", shorten_words)
+	beego.AddFuncMap("markdown", markdown)
 	beego.Run()
+}
+
+func markdown(s string) template.HTML {
+	output := blackfriday.MarkdownCommon([]byte(s))
+	return beego.Str2html(string(output))
+}
+
+func shorten_words(w string, limit int) string {
+	words := strings.Split(w, " ")
+	newWords := []string{}
+	for i := 0; i < len(words); i++ {
+		if i < limit {
+			newWords = append(newWords, words[i])
+		}
+	}
+	w = strings.Join(newWords, " ")
+	if len(words) > len(newWords) {
+		w += "..."
+	}
+	return strings.Title(w)
 }
 
 func lessthan(number1, number2 int) bool {

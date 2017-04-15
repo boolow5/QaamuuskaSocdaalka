@@ -7,6 +7,7 @@ import (
 
 func init() {
 	beego.Router("/", &controllers.MainController{})
+	beego.Router("/post/:post_id", &controllers.MainController{}, "get:GetPostDetail")
 	beego.Router("/translate/:word/:args", &controllers.MiscAPIController{}, "*:GetTranslation")
 	beego.Router("/bol-admin", &controllers.AdminController{})
 	beego.Router("/bol-admin/add/user", &controllers.AdminController{}, "post:AddUser")

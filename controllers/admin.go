@@ -204,6 +204,8 @@ func (this *AdminController) AddPost() {
 		this.ServeJSON()
 		return
 	}
+	// increment category posts
+	models.UpdateCategoryPostCount(category_id)
 	responseMessage["success"] = "added-post"
 	this.Data["json"] = responseMessage
 	this.ServeJSON()

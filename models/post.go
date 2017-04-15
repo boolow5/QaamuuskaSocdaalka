@@ -13,6 +13,7 @@ type Category struct {
 type Post struct {
 	Id            int       `json:"id" orm:"auto"`
 	Title         string    `json:"title" orm:"size(300)"`
+	Url           string    `json:"url" orm:"size(400);unique"`
 	Content       string    `json:"content" orm:"size(5000)"`
 	FeaturedImage *Image    `json:"featured_image" orm:"rel(fk)"`
 	Category      *Category `json:"category" orm:"rel(fk)"`

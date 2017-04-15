@@ -9,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand brand-and-logo" href="#"><img class="pull-right" src="static/favicon/favicon-96x96.png" alt="logo" /> <span class="iweydi">iWeydi</span></a>
+      <a class="navbar-brand brand-and-logo" href="#"><img class="pull-right" src="/static/favicon/favicon-96x96.png" alt="logo" /> <span class="iweydi">iWeydi</span></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

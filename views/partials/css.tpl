@@ -1,14 +1,14 @@
 <!-- Bootstrap -->
-<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="static/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="static/css/main.css" rel="stylesheet">
+<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="/static/css/main.css" rel="stylesheet">
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins and responsiveSlides) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="/static/js/jquery.min.js"></script>
 
 <!-- Sliders -->
-<link href="static/slider/responsiveslides.css" rel="stylesheet">
-<script src="static/slider/responsiveslides.js"></script>
+<link href="/static/slider/responsiveslides.css" rel="stylesheet">
+<script src="/static/slider/responsiveslides.js"></script>
 <script>
   // $(".rslides").responsiveSlides({
   //   auto: true,             // Boolean: Animate automatically, true or false
@@ -126,6 +126,9 @@
   a.next:hover, a.prev:hover {
     text-decoration: none;
 
+  }
+  a.next:focus, a.prev:focus {
+    text-decoration: none;
   }
 
 </style>

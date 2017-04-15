@@ -116,6 +116,10 @@ h1.huge-banner {
   margin-left: .3em;
   margin-right: .3em;
   background-color: #EEF;
+  overflow-y: hidden;
+}
+.sidebar img, .main-content img {
+  width: 100%;
 }
 .sidebar a, .main-content a {
   color: #0A593F;
@@ -137,4 +141,26 @@ h1.huge-banner {
 .icon-bar {
   background-color: #fff;
   box-shadow: 0 0 1px #000;
+}
+.thumbnail-image {
+  min-height: 8em;
+  background-size: cover;
+  background-position: center;
+}
+.full-image-box > .image {
+  min-height: 30em;
+  background-size: cover;
+  background-position: center;
+}
+.full-image-box > .image > .caption {
+  min-height: 3em;
+  background-color: rgba(10, 10, 10, .5);
+  color: #FFF;
+  position: relative;
+  bottom: 0;
+}
+.thumbnail > .caption {
+  min-height: 5em;
+  max-height: 8em;
+  overflow: hidden;
 }

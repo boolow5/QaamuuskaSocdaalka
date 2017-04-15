@@ -58,8 +58,8 @@
     {{.footer}}
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="static/bootstrap/js/bootstrap.min.js"></script>
-    <script src="static/js/jquery.cookie.js"></script>
-    <script src="static/js/main.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.cookie.js"></script>
+    <script src="/static/js/main.js"></script>
   </body>
 </html>

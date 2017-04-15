@@ -6,18 +6,12 @@
         <h1 class="column-header"><a href="#">{{i18n $.Lang "categories"}}</a></h1>
         <br>
         <ul class="">
+          {{range $index, $val := .Categories}}
           <li class="">
             <span class="badge">14</span>
-            {{i18n $.Lang "category %d" 1}}
+            {{i18n $.Lang $val.Name}}
           </li>
-          <li class="">
-            <span class="badge">11</span>
-            {{i18n $.Lang "category %d" 2}}
-          </li>
-          <li class="">
-            <span class="badge">10</span>
-            {{i18n $.Lang "category %d" 3}}
-          </li>
+          {{end}}
         </ul>
       </div>
       <div class="col-sm-5">
@@ -31,7 +25,7 @@
         </p>
       </div>
       <div class="col-sm-2">
-        
+
       </div>
 
       <div class="col-sm-3">

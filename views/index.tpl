@@ -18,17 +18,17 @@
 
     <!-- CSS
   ================================================== -->
-  	<link rel="stylesheet" href="static/css/zerogrid.css">
-	<link rel="stylesheet" href="static/css/style.css">
-	<link rel="stylesheet" href="static/css/responsiveslides.css">
+  	<link rel="stylesheet" href="/static/css/zerogrid.css">
+	<link rel="stylesheet" href="/static/css/style.css">
+	<link rel="stylesheet" href="/static/css/responsiveslides.css">
 
 	<!-- Custom Fonts -->
-	<link href="static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-	<script src="static/js/jquery-latest.min.js"></script>
-	<script src="static/js/script.js"></script>
-    <script src="static/js/jquery183.min.js"></script>
-    <script src="static/js/responsiveslides.min.js"></script>
+	<script src="/static/js/jquery-latest.min.js"></script>
+	<script src="/static/js/script.js"></script>
+    <script src="/static/js/jquery183.min.js"></script>
+    <script src="/static/js/responsiveslides.min.js"></script>
     <script>
 		// You can also use "$(window).load(function() {"
 		$(function () {
@@ -58,8 +58,8 @@
       </div>
     <![endif]-->
     <!--[if lt IE 9]>
-		<script src="static/js/html5.js"></script>
-		<script src="static/js/css3-mediaqueries.js"></script>
+		<script src="/static/js/html5.js"></script>
+		<script src="/static/js/css3-mediaqueries.js"></script>
 	<![endif]-->
 
 </head>
@@ -78,7 +78,7 @@
 				   <li><a href="contact.html">Contact</a></li>
 				</ul>
 			</div>
-			<a href='/' class="logo"><img src="static/images/logo.png" /></a>
+			<a href='/' class="logo"><img src="/static/images/logo.png" /></a>
 		</div>
 	</div>
 </header>
@@ -87,21 +87,21 @@
 	<div class="callbacks_container" >
 		<ul class="rslides" id="slider">
 			<li>
-				<img src="static/images/slideshow-image1.jpg" alt="">
+				<img src="/static/images/slideshow-image1.jpg" alt="">
 				<div class="caption">
 					<h1>Dalka Moldova Maxaad Ka Taqaan?</h1>
 					<span >Lorem ipsum dolor sit amet</span>
 				</div>
 			</li>
 			<li>
-				<img src="static/images/slideshow-image2.jpg" alt="">
+				<img src="/static/images/slideshow-image2.jpg" alt="">
 				<div class="caption">
 					<h1>Dalka Ugu Sharciga Adag?</h1>
 					<span >Lorem ipsum dolor sit amet</span>
 				</div>
 			</li>
 			<li>
-				<img src="static/images/slideshow-image3.jpg" alt="">
+				<img src="/static/images/slideshow-image3.jpg" alt="">
 				<div class="caption">
 					<h1>Trump iyo Somalida Yaa Saxan?</h1>
 					<span >Lorem ipsum dolor sit amet</span>
@@ -128,7 +128,7 @@
 					<div class="col-1-3">
 						<div class="wrap-col item">
 							<div class="zoom-container">
-								<img src="static/images/banner-img1.jpg" />
+								<img src="/static/images/banner-img1.jpg" />
 							</div>
 							<div class="item-content">
 								<span>XUDUUDAHA UGU FUDUD EE LAGU SAFRO.</span>
@@ -141,7 +141,7 @@
 					<div class="col-1-3">
 						<div class="wrap-col item">
 							<div class="zoom-container">
-								<img src="static/images/banner-img2.jpg" />
+								<img src="/static/images/banner-img2.jpg" />
 							</div>
 							<div class="item-content">
 								<span>DALALKA UGU SOOMAALI NACEYBKA BADAN.</span>
@@ -154,7 +154,7 @@
 					<div class="col-1-3">
 						<div class="wrap-col item">
 							<div class="zoom-container">
-								<img src="static/images/banner-img3.jpg" />
+								<img src="/static/images/banner-img3.jpg" />
 							</div>
 							<div class="item-content">
 								<span>WADAMADA DIHAN BALSE AADKA U HORUMARAY.</span>
@@ -189,7 +189,7 @@
 					</div>
 					<div class="post">
 						<div class="col-1-2">
-							<img src="static/images/23.jpg"/>
+							<img src="/static/images/23.jpg"/>
 						</div>
 						<div class="col-1-2">
 							<div class="wrapper">
@@ -202,7 +202,7 @@
 					</div>
 					<div class="post">
 						<div class="col-1-2 f-right">
-							<img src="static/images/24.jpg" />
+							<img src="/static/images/24.jpg" />
 						</div>
 						<div class="col-1-2">
 							<div class="wrapper">
@@ -263,7 +263,7 @@
 						<div class="wrap-col item">
 							<h3 class="item-header">WELCOME to our site</h3>
 							<span>LOREM IPSUM DOLOR SIT AMET, CONSEC TEER ADIPISCING. PRSENT VESTIBULUM.</span>
-							<img src="static/images/logo.png" />
+							<img src="/static/images/logo.png" />
 							<p>His primis omittam intellegat cu, voluptua appetere mea ad, eu harum oporteat vix.
 								Et vel quod legimus, graeci electram ocurreret at his. Vix at tation facete impetus omnesque ius harum antiopam.</p>
 							<a class="btn" href="#">More</a>

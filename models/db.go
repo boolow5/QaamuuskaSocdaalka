@@ -1,23 +1,54 @@
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+
+	"github.com/astaxie/beego/orm"
+)
+
+func GetPopularPosts(limit int) (popularPosts []*Post, err error) {
+	_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY views DESC LIMIT ?", limit).QueryRows(&popularPosts) // o.QueryTable("posts").Filter("save_as_draft", 0).OrderBy("views").Limit(limit).All(&popularPosts)
+	for i := 0; i < len(popularPosts); i++ {
+		o.QueryTable("images").Filter("id", popularPosts[i].FeaturedImage.Id).One(popularPosts[i].FeaturedImage)
+	}
+	return popularPosts, err
+}
+
+func GetPostById(post_id int) (post Post) {
+	err := o.Raw("SELECT * FROM posts WHERE id = ? AND save_as_draft = 0", post_id).QueryRow(&post)
+	if err != nil {
+		fmt.Println(err)
+		return post
+	}
+	o.Raw("SELECT * FROM images WHERE id = ?", post.FeaturedImage.Id).QueryRow(post.FeaturedImage)
+	return post
+}
 
 func GetPosts(offset, limit int) ([]*Post, error) {
 	news_items := []*Post{}
 	var err error
 	if offset == 0 && limit == 0 {
 		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY published_date DESC").QueryRows(&news_items)
+		// o.QueryTable("posts").Filter("save_as_draft", 0).OrderBy("-published_date").Offset(offset).Limit(limit).All(&news_items)
 	} else if offset == 0 {
 		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY published_date DESC LIMIT ?", limit).QueryRows(&news_items)
+		// o.QueryTable("posts").Filter("save_as_draft", 0).OrderBy("-published_date").Limit(limit).All(&news_items)
 	} else if limit == 0 {
 		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY published_date DESC OFFSET ? ", offset).QueryRows(&news_items)
+		// o.QueryTable("posts").Filter("save_as_draft", 0).OrderBy("-published_date").Offset(offset).All(&news_items)
 	} else {
 		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY published_date DESC LIMIT ? OFFSET ? ", limit, offset).QueryRows(&news_items)
+		// o.QueryTable("posts").Filter("save_as_draft", 0).OrderBy("-published_date").All(&news_items)
 	}
 
 	if err != nil {
 		Verbose("GetNewsItems: %v", err)
 		return news_items, err
+	}
+
+	for i := 0; i < len(news_items); i++ {
+		o.QueryTable("images").Filter("id", news_items[i].FeaturedImage.Id).One(news_items[i].FeaturedImage)
 	}
 	return news_items, nil
 }
@@ -113,6 +144,24 @@ func GetItemById(id int, out MyModel) {
 			return
 		}
 	}
+}
+
+func UpdateCategoryPostCount(category_id int) {
+	category := Category{Id: category_id}
+	counterValues := []orm.Params{}
+	o.Raw("SELECT COUNT(*) as posts FROM posts WHERE category_id = ?", category_id).Values(&counterValues)
+	counter := 0
+	if counterValues[0] != nil {
+		counter, _ = strconv.Atoi(counterValues[0]["posts"].(string))
+	}
+	fmt.Println("Counter:", counter, "\nCounterValues:", counterValues[0])
+	category.PostsCount = int(counter)
+	result, err := o.Raw("UPDATE category SET posts_count = ? WHERE id = ?", counter, category_id).Exec()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("Result:", result)
+
 }
 
 func typeOf(i interface{}) string {

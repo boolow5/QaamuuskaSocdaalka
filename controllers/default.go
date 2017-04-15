@@ -13,17 +13,50 @@ type MainController struct {
 	BaseController
 }
 
-func (c *MainController) Get() {
-	flash := beego.ReadFromRequest(&c.Controller)
+func GetPageItems(c *beego.Controller) {
 	page, _ := strconv.Atoi(c.Ctx.Input.Query("page"))
 	itemsPerPage, _ := strconv.Atoi(c.Ctx.Input.Query("ipp"))
-	fmt.Println("Page:", page, "\tItems per Page:", itemsPerPage)
 	if itemsPerPage == 0 {
 		itemsPerPage = 20
 	}
-	c.Data["Posts"], _ = models.GetPosts(page*itemsPerPage, itemsPerPage)
+	offset := page * itemsPerPage
+	limit := itemsPerPage
+	posts, _ := models.GetPosts(offset, limit)
+	c.Data["MostPopularPosts"], _ = models.GetPopularPosts(3)
+	latests, posts := latestPosts(posts, 3)
+	c.Data["LatestPosts"] = latests
+	c.Data["Posts"] = posts
+	c.Data["Categories"], _ = models.GetCategories()
+}
+
+func (c *MainController) Get() {
+	GetPageItems(&c.Controller)
+	flash := beego.ReadFromRequest(&c.Controller)
 	c.Data["message"] = flash.Data
 	SetTemplate("pages/index.tpl", &c.Controller)
+}
+
+func (c *MainController) GetPostDetail() {
+	GetPageItems(&c.Controller)
+	flash := beego.ReadFromRequest(&c.Controller)
+	c.Data["message"] = flash.Data
+
+	post_id, _ := strconv.Atoi(c.Ctx.Input.Param(":post_id"))
+	c.Data["Post"] = models.GetPostById(post_id)
+	SetTemplate("pages/detail.tpl", &c.Controller)
+}
+
+func latestPosts(posts []*models.Post, limit int) (latest, otherPosts []*models.Post) {
+	// get the first 3 posts
+	if limit < len(posts) {
+		latest = posts[:limit]
+	} else {
+		latest = posts
+	}
+	fmt.Printf("Latests: %d\t\tOther posts: %d\n", len(latest), len(posts))
+	// remove the 3 post from the original list
+	otherPosts = posts[len(latest):]
+	return latest, otherPosts
 }
 
 func SetTemplate(tplName string, controller *beego.Controller) {
