@@ -3,15 +3,15 @@
 
   {{if .Post.FeaturedImage}}
 
-  {{i18n $.Lang "written"}} {{format .Post.PublishedDate "03:04PM 02-01-2006"}} | {{i18n $.Lang "views"}} <span>{{.Post.Views}}</span>
+  {{i18n $.Lang "date written"}} {{format .Post.PublishedDate "03:04PM 02-01-2006"}} | {{i18n $.Lang "views"}} <span>{{.Post.Views}}</span>
   <hr>
   <div class="full-image-box">
     <div class="image" style="background-image:url({{.Post.FeaturedImage.Url}})">
 
 
       <div class="caption">
-        <h4>{{.Post.FeaturedImage.Title}}</h4>
-        <span>{{.Post.FeaturedImage.Description}}</span>
+        <h4>{{.Post.FeaturedImage.Title |title}}</h4>
+        <span>{{.Post.FeaturedImage.Description |title}}</span>
       </div>
     </div>
   </div>
