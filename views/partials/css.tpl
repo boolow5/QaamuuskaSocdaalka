@@ -58,6 +58,9 @@
     width: 100%;
     padding: 0;
     margin: 0;
+    border-top: .2em solid #020A31;
+    border-right: .2em solid #020A31;
+    border-left: .2em solid #020A31;
     border-top-left-radius: 1em;
     border-top-right-radius: 1em;
   }

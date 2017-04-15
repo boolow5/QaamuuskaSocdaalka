@@ -6,13 +6,13 @@ func GetPosts(offset, limit int) ([]*Post, error) {
 	news_items := []*Post{}
 	var err error
 	if offset == 0 && limit == 0 {
-		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 AND show = 1 ORDER BY published_date DESC").QueryRows(&news_items)
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY published_date DESC").QueryRows(&news_items)
 	} else if offset == 0 {
-		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 AND show = 1 ORDER BY published_date DESC LIMIT ?", limit).QueryRows(&news_items)
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY published_date DESC LIMIT ?", limit).QueryRows(&news_items)
 	} else if limit == 0 {
-		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 AND show = 1 ORDER BY published_date DESC OFFSET ? ", offset).QueryRows(&news_items)
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY published_date DESC OFFSET ? ", offset).QueryRows(&news_items)
 	} else {
-		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 AND show = 1 ORDER BY published_date DESC LIMIT ? OFFSET ? ", limit, offset).QueryRows(&news_items)
+		_, err = o.Raw("SELECT * FROM posts WHERE save_as_draft = 0 ORDER BY published_date DESC LIMIT ? OFFSET ? ", limit, offset).QueryRows(&news_items)
 	}
 
 	if err != nil {

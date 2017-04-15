@@ -26,7 +26,12 @@ func (c *AdminController) Get() {
 	if itemsPerPage == 0 {
 		itemsPerPage = 20
 	}
-	c.Data["Posts"], _ = models.GetPosts(page*itemsPerPage, itemsPerPage)
+	posts, err := models.GetPosts(0, 0)
+	c.Data["Posts"] = posts
+	if err != nil {
+		fmt.Println("ERROR GETTING POSTS:")
+		fmt.Println(err)
+	}
 	c.Data["Drafts"], _ = models.GetDrafts(page*itemsPerPage, itemsPerPage)
 	c.Data["Categories"], _ = models.GetCategories()
 	c.Data["Images"], _ = models.GetImages()
