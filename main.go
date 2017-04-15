@@ -25,7 +25,13 @@ func main() {
 	beego.AddFuncMap("lessthan", lessthan)
 	beego.AddFuncMap("shorten_words", shorten_words)
 	beego.AddFuncMap("markdown", markdown)
+	beego.AddFuncMap("format", format)
 	beego.Run()
+}
+
+func format(t time.Time, layout string) string {
+	// layout: Mon Jan 2 15:04:05 -0700 MST 2006
+	return t.Format(layout)
 }
 
 func markdown(s string) template.HTML {
@@ -45,6 +51,7 @@ func shorten_words(w string, limit int) string {
 	if len(words) > len(newWords) {
 		w += "..."
 	}
+	w = strings.Replace(w, "\n", " ", -1)
 	return strings.Title(w)
 }
 

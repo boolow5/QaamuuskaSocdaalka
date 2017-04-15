@@ -27,7 +27,9 @@
       {{end}}
     </div>
 
-    {{.featured}}
+    {{if eq .Page "home"}}
+      {{.featured}}
+    {{end}}
 
 
     <div class="messages">

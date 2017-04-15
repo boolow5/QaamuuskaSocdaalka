@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
@@ -174,9 +176,13 @@ func (this *AdminController) AddPost() {
 		return
 	}
 
+	now := time.Now()
+	unique_suffix := fmt.Sprintf("_%d_%d_%d_%d:%d:%d", now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second())
+
 	newPost := models.Post{
 		Title:       post.Title,
 		Content:     post.Content,
+		Url:         strings.Replace(post.Title, " ", "-", -1) + unique_suffix,
 		SaveAsDraft: post.SaveAsDraft,
 	}
 

@@ -16,12 +16,30 @@ func GetPopularPosts(limit int) (popularPosts []*Post, err error) {
 }
 
 func GetPostById(post_id int) (post Post) {
+	// get the post
 	err := o.Raw("SELECT * FROM posts WHERE id = ? AND save_as_draft = 0", post_id).QueryRow(&post)
 	if err != nil {
 		fmt.Println(err)
 		return post
 	}
 	o.Raw("SELECT * FROM images WHERE id = ?", post.FeaturedImage.Id).QueryRow(post.FeaturedImage)
+
+	post.Views += 1
+	o.Raw("UPDATE posts SET views = ? WHERE id = ?", post.Views, post_id).Exec()
+	return post
+}
+
+func GetPostByUrl(post_url string) (post Post) {
+	// get the post
+	err := o.Raw("SELECT * FROM posts WHERE url = ? AND save_as_draft = 0", post_url).QueryRow(&post)
+	if err != nil {
+		fmt.Println(err)
+		return post
+	}
+	o.Raw("SELECT * FROM images WHERE id = ?", post.FeaturedImage.Id).QueryRow(post.FeaturedImage)
+
+	post.Views += 1
+	o.Raw("UPDATE posts SET views = ? WHERE id = ?", post.Views, post.Id).Exec()
 	return post
 }
 

@@ -31,6 +31,7 @@ func GetPageItems(c *beego.Controller) {
 
 func (c *MainController) Get() {
 	GetPageItems(&c.Controller)
+	c.Data["Page"] = "home"
 	flash := beego.ReadFromRequest(&c.Controller)
 	c.Data["message"] = flash.Data
 	SetTemplate("pages/index.tpl", &c.Controller)
@@ -38,11 +39,12 @@ func (c *MainController) Get() {
 
 func (c *MainController) GetPostDetail() {
 	GetPageItems(&c.Controller)
+	c.Data["Page"] = "datail"
 	flash := beego.ReadFromRequest(&c.Controller)
 	c.Data["message"] = flash.Data
 
-	post_id, _ := strconv.Atoi(c.Ctx.Input.Param(":post_id"))
-	c.Data["Post"] = models.GetPostById(post_id)
+	post_url := c.Ctx.Input.Param(":post_url")
+	c.Data["Post"] = models.GetPostByUrl(post_url)
 	SetTemplate("pages/detail.tpl", &c.Controller)
 }
 
