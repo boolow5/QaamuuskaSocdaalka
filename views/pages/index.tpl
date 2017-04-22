@@ -4,15 +4,17 @@
   <div class="container-fluid">
     {{range $index, $val := .LatestPosts}}
     <div class="col-sm-6 col-md-4">
-      <div class="thumbnail">
-        <div class="thumbnail-image" style="background-image:url({{$val.FeaturedImage.Url}})">
+      <a href="{{$val.Url}}">
+        <div class="thumbnail">
+          <div class="thumbnail-image" style="background-image:url({{$val.FeaturedImage.Url}})">
 
+          </div>
+          <div class="caption">
+            <h4>{{shorten_words $val.Title 10}}</h4>
+          </div>
+          <span>{{$val.Views}}</span>
         </div>
-        <div class="caption">
-          <h4>{{shorten_words $val.Title 10}}</h4>
-        </div>
-        <span>{{$val.Views}}</span>
-      </div>
+      </a>
     </div>
     {{end}}
 

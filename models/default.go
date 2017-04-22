@@ -18,6 +18,7 @@ var (
 )
 
 type MyModel interface {
+	SetId(int)
 	Valid() bool
 	TableName() string
 	String() string
@@ -37,7 +38,7 @@ func init() {
 	orm.RegisterDriver("sqlite3", orm.DRSqlite)
 	orm.RegisterDataBase("default", "sqlite3", dbHome+"/socdaalka.db")
 
-	orm.RegisterModel(new(Post), new(User), new(Profile), new(Image), new(Category))
+	orm.RegisterModel(new(Post), new(User), new(Profile), new(Image), new(Category), new(Country), new(City))
 
 	if AUTO_MIGRATE {
 		name := "default"                          // Database alias.
@@ -72,7 +73,7 @@ func init() {
 		}
 	}
 	o = orm.NewOrm()
-	o.Raw("PRAGMA foreign_keys = ON")
+	o.Raw("PRAGMA foreign_keys = ON").Exec()
 }
 
 func Verbose(format string, args ...interface{}) {

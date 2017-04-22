@@ -8,7 +8,7 @@
         <ul class="">
           {{range $index, $val := .Categories}}
           <li class="">
-            <span class="badge">14</span>
+            <span class="badge">{{$val.PostsCount}}</span>
             {{i18n $.Lang $val.Name}}
           </li>
           {{end}}

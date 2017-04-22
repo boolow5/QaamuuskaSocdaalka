@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand brand-and-logo" href="#"><img src="static/favicon/favicon-96x96.png" alt="logo"> Qaamuuska</a>
+      <a class="navbar-brand brand-and-logo" href="/"><img src="/static/favicon/favicon-96x96.png" alt="logo"> Qaamuuska</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

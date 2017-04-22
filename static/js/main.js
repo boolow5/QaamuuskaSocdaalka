@@ -90,6 +90,29 @@ $("#logout").on("click", function(e){
   });
 });
 
+$(".delete-item").on("click", function(e) {
+  e.preventDefault();
+  console.log("deleting something");
+  url = this.dataset.url;
+  console.log(url);
+  $.ajax({
+    url: url,
+    type: "get",
+    success: function(result) {
+      console.log(result);
+      //window.location.href = "http://localhost:8080";
+      if (result["error"]) {
+        translate(result, ["#error > .message"])
+        ShowMessage("error");
+      } else if (result["success"]) {
+        translate(result, ["#success > span.message"])
+        ShowMessage("#success");
+        reloadAfter(1000)
+      }
+    }
+  })
+})
+
 // user-form
 $("#user-form").submit(function(e){
   e.preventDefault();

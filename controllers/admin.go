@@ -20,6 +20,29 @@ type AdminController struct {
 	BaseController
 }
 
+func (this *AdminController) GetWorldForm() {
+	flash := beego.ReadFromRequest(&this.Controller)
+	method := this.Ctx.Request.Method
+	if method == "UPDATE" || method == "update" {
+		country_id, _ := strconv.Atoi(this.Ctx.Input.Param(":country_id"))
+		country, _ := models.GetCountryById(country_id)
+		this.Data["Country"] = country
+	} else {
+		// anything to do with other methods
+	}
+	this.Data["message"] = flash.Data
+	this.Data["Drafts"], _ = models.GetDrafts(0, 0)
+	this.Data["Categories"], _ = models.GetCategories()
+	this.Data["Images"], _ = models.GetImages()
+	this.Data["Users"], _ = models.GetUsers()
+	SetAdminTemplate("admin/country.tpl", &this.Controller)
+}
+
+func (c *AdminController) AddCountry() {
+
+	SetAdminTemplate("tplName", &c.Controller)
+}
+
 func (c *AdminController) Get() {
 	flash := beego.ReadFromRequest(&c.Controller)
 	page, _ := strconv.Atoi(c.Ctx.Input.Query("page"))
@@ -28,6 +51,10 @@ func (c *AdminController) Get() {
 	if itemsPerPage == 0 {
 		itemsPerPage = 20
 	}
+
+	// if item or more is being updated
+	getItemsToUpdate(&c.Controller)
+
 	posts, err := models.GetPosts(0, 0)
 	c.Data["Posts"] = posts
 	if err != nil {
@@ -40,6 +67,42 @@ func (c *AdminController) Get() {
 	c.Data["Users"], _ = models.GetUsers()
 	c.Data["message"] = flash.Data
 	SetAdminTemplate("admin/index.tpl", &c.Controller)
+}
+
+func getItemsToUpdate(c *beego.Controller) {
+	// collect query variables
+	category_id, _ := strconv.Atoi(c.Ctx.Input.Query("category_id"))
+	image_id, _ := strconv.Atoi(c.Ctx.Input.Query("image_id"))
+	post_id, _ := strconv.Atoi(c.Ctx.Input.Query("post_id"))
+	user_id, _ := strconv.Atoi(c.Ctx.Input.Query("user_id"))
+
+	// declare objects
+	var (
+		category models.Category
+		image    models.Image
+		post     models.Post
+		user     models.User
+	)
+	// fetch values from database
+	models.GetItemById(category_id, &category)
+	models.GetItemById(image_id, &image)
+	models.GetItemById(post_id, &post)
+	if post.Category != nil {
+		models.GetItemById(post.Category.Id, post.Category)
+	} else {
+		post.Category = &models.Category{}
+		models.GetItemById(1, post.Category)
+	}
+	models.GetItemById(user_id, &user)
+
+	fmt.Printf("category_id: %d\timage_id: %d\tpost_id: %d\tuser_id: %d\t\n", category_id, image_id, post_id, user_id)
+	fmt.Printf("category_id: %d\timage_id: %d\tpost_id: %d\tuser_id: %d\t\n", category.Id, image.Id, post.Id, user.Id)
+
+	// set template variables
+	c.Data["Category"] = category
+	c.Data["Image"] = image
+	c.Data["Post"] = post
+	c.Data["User"] = user
 }
 
 func (this *AdminController) Login() {
@@ -162,6 +225,7 @@ func (this *AdminController) AddPost() {
 		Title           string `json:"title"`
 		Content         string `json:"content"`
 		CategoryId      string `json:"category"`
+		Language        string `json:"language"`
 		FeaturedImageId string `json:"featured_image"`
 		SaveAsDraft     bool   `json:"save_as_draft"`
 	}{}
@@ -182,6 +246,7 @@ func (this *AdminController) AddPost() {
 	newPost := models.Post{
 		Title:       post.Title,
 		Content:     post.Content,
+		Language:    post.Language,
 		Url:         strings.Replace(post.Title, " ", "-", -1) + unique_suffix,
 		SaveAsDraft: post.SaveAsDraft,
 	}
@@ -211,7 +276,80 @@ func (this *AdminController) AddPost() {
 		return
 	}
 	// increment category posts
-	models.UpdateCategoryPostCount(category_id)
+	models.UpdateAllCategoriesPostCount()
+	responseMessage["success"] = "added-post"
+	this.Data["json"] = responseMessage
+	this.ServeJSON()
+}
+
+func (this *AdminController) UpdatePost() {
+	post := struct {
+		Title           string `json:"title"`
+		Content         string `json:"content"`
+		CategoryId      string `json:"category"`
+		Language        string `json:"language"`
+		FeaturedImageId string `json:"featured_image"`
+		SaveAsDraft     bool   `json:"save_as_draft"`
+	}{}
+
+	responseMessage := map[string]interface{}{}
+	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&post)
+	if err != nil {
+		responseMessage["error"] = "post parsing error"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+
+	now := time.Now()
+
+	post_id, _ := strconv.Atoi(this.Ctx.Input.Param(":post_id"))
+
+	newPost := models.Post{
+		Id:          post_id,
+		Title:       post.Title,
+		Content:     post.Content,
+		Language:    post.Language,
+		SaveAsDraft: post.SaveAsDraft,
+		UpdatedAt:   now,
+	}
+
+	category_id, _ := strconv.Atoi(post.CategoryId)
+	image_id, _ := strconv.Atoi(post.FeaturedImageId)
+	newPost.Category = &models.Category{Id: category_id}
+	newPost.FeaturedImage = &models.Image{Id: image_id}
+
+	CurrentUser := this.GetSession("username")
+	if CurrentUser == nil {
+		responseMessage["error"] = "post-not-saved"
+		responseMessage["explation"] = "invalid author"
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+
+	_, newPost.Author = models.GetUserByUsername(CurrentUser.(string))
+
+	oldPost := models.GetPostById(post_id)
+	newPost.CreatedAt = oldPost.CreatedAt
+	saved, err := models.UpdateItem(&oldPost, &newPost)
+	if err != nil {
+		responseMessage["error"] = "post not updated"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+	if !saved {
+		responseMessage["error"] = "post-not-saved"
+		responseMessage["explation"] = ""
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+	// increment category posts
+	models.UpdateAllCategoriesPostCount()
 	responseMessage["success"] = "added-post"
 	this.Data["json"] = responseMessage
 	this.ServeJSON()
@@ -333,6 +471,84 @@ func (this *AdminController) AddImage() {
 	flash.Success(i18n.Tr(this.Lang, "image saved"))
 	flash.Store(&this.Controller)
 	this.Redirect("/bol-admin", 302)
+}
+
+func (this *AdminController) UpdateImage() {
+	fmt.Println("AddImage")
+	flash := beego.NewFlash()
+	image_id, _ := strconv.Atoi(this.Ctx.Input.Param(":image_id"))
+	image := models.Image{Id: image_id}
+
+	image.Title = this.GetString("title")
+	image.Description = this.GetString("description")
+
+	oldImage := models.Image{Id: image_id}
+	models.GetItemById(image_id, &oldImage)
+
+	if oldImage.Url == "" {
+		flash.Error(i18n.Tr(this.Lang, "image not found"))
+		flash.Store(&this.Controller)
+		this.Redirect("/bol-admin", 302)
+		return
+	}
+
+	image.Url = oldImage.Url
+
+	saved, err := models.UpdateItem(&oldImage, &image)
+	if err != nil {
+		flash.Error(i18n.Tr(this.Lang, "image saving failed"))
+		fmt.Println(err)
+		flash.Store(&this.Controller)
+		this.Redirect("/bol-admin", 302)
+		return
+	}
+
+	if !saved {
+		flash.Error(i18n.Tr(this.Lang, "image not saved"))
+		flash.Store(&this.Controller)
+		this.Redirect("/bol-admin", 302)
+		return
+	}
+
+	flash.Success(i18n.Tr(this.Lang, "image saved"))
+	flash.Store(&this.Controller)
+	this.Redirect("/bol-admin", 302)
+}
+
+func (this *AdminController) DeleteImage() {
+	fmt.Println("DeleteImage")
+	uploadsDir := beego.AppConfig.String("uploads")
+	fmt.Println("UPLOAD DIR:", uploadsDir)
+	image_id, _ := strconv.Atoi(this.Ctx.Input.Param(":image_id"))
+	image := models.Image{}
+	models.GetItemById(image_id, &image)
+
+	new_url := strings.Replace(image.Url, "/static/uploads/", "", -1)
+	fmt.Println("IMAGE DIR:", uploadsDir+new_url)
+
+	err := os.Remove(uploadsDir + new_url)
+	if err != nil {
+		fmt.Println("File Delete ERROR:", err.Error())
+		this.Data["json"] = map[string]string{"error": "File remove error", "reason": err.Error()}
+		this.ServeJSON()
+	}
+
+	deleted, err := models.DeleteItem(&image)
+	if err != nil {
+		fmt.Println("Delete Item ERROR:", err.Error())
+		this.Data["json"] = map[string]string{"error": "delete item error", "reason": err.Error()}
+		this.ServeJSON()
+		return
+	}
+	if !deleted {
+		fmt.Println("Not Deleted ERROR:")
+		this.Data["json"] = map[string]string{"error": "not deleted error"}
+		this.ServeJSON()
+		return
+	}
+
+	this.Data["json"] = map[string]string{"success": "image deleted"}
+	this.ServeJSON()
 }
 
 func SetAdminTemplate(tplName string, controller *beego.Controller) {

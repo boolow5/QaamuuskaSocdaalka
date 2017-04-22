@@ -30,6 +30,10 @@ func (this *User) TableName() string {
 	return "user"
 }
 
+func (this *User) SetId(id int) {
+	this.Id = id
+}
+
 func (this *User) Valid() bool {
 	if len(this.Username) < 2 {
 		fmt.Println("Short username")
@@ -59,6 +63,10 @@ type Profile struct {
 
 func (this *Profile) TableName() string {
 	return "profile"
+}
+
+func (this *Profile) SetId(id int) {
+	this.Id = id
 }
 
 // Add adds new user to the database, and returns error or false if adding is failed

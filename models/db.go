@@ -134,9 +134,17 @@ func SaveItem(m MyModel) bool {
 }
 
 func GetItemById(id int, out MyModel) {
-	if typeOf(out) == "models.User" {
+	if id < 1 {
+		return
+	}
+	out.SetId(id)
+	err := o.Read(out)
+	if err != nil {
+		fmt.Println(err)
+	}
+	/*if typeOf(out) == "models.User" {
 		user := User{Id: id}
-		err := o.Read(&user)
+		err := o.Raw("SELECT * FROM ? WHERE id = ?", out.TableName(), id).QueryRow(&user) // QueryTable(out.TableName()).Filter("id = ?", id).One(&user)
 		if err != nil {
 			fmt.Println(err)
 		} else {
@@ -145,7 +153,7 @@ func GetItemById(id int, out MyModel) {
 		}
 	} else if typeOf(out) == "models.Post" {
 		post := Post{Id: id}
-		err := o.Read(&post)
+		err := o.Raw("SELECT * FROM ? WHERE id = ?", out.TableName(), id).QueryRow(&post) // o.Read(&post)
 		if err != nil {
 			fmt.Println(err)
 		} else {
@@ -154,13 +162,33 @@ func GetItemById(id int, out MyModel) {
 		}
 	} else if typeOf(out) == "models.Image" {
 		img := Image{Id: id}
-		err := o.Read(&img)
+		err := o.Raw("SELECT * FROM ? WHERE id = ?", out.TableName(), id).QueryRow(&img) // o.Read(&img)
 		if err != nil {
 			fmt.Println(err)
 		} else {
 			out = &img
 			return
 		}
+	} else if strings.HasSuffix(typeOf(out), "models.Category") {
+		category := Category{Id: id}
+		err := o.Raw("SELECT * FROM ? WHERE id = ?", out.TableName(), id).QueryRow(&category) // o.Read(&category)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			out = &category
+			return
+		}
+	}*/
+}
+
+func UpdateAllCategoriesPostCount() {
+	categories := []Category{}
+	// get all categories
+	o.QueryTable("category").All(&categories)
+
+	// iterate through each and update it
+	for i := 0; i < len(categories); i++ {
+		o.Raw("UPDATE category SET posts_count = (SELECT COUNT(*) FROM posts WHERE category_id = ?) WHERE id = ?", categories[i].Id, categories[i].Id).Exec()
 	}
 }
 

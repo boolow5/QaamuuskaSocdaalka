@@ -26,7 +26,12 @@ func main() {
 	beego.AddFuncMap("shorten_words", shorten_words)
 	beego.AddFuncMap("markdown", markdown)
 	beego.AddFuncMap("format", format)
+	beego.AddFuncMap("gt", greateThan)
 	beego.Run()
+}
+
+func greateThan(a, b int) bool {
+	return a > b
 }
 
 func format(t time.Time, layout string) string {

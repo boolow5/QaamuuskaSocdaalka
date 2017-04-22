@@ -4,7 +4,7 @@
     <ul>
     {{range $index, $val := .Drafts}}
       {{if lessthan $index 10 }}
-      <li>{{$val.Title}}</li>
+      <li><a href="/bol-admin?draft_id={{$val.Id}}">{{$val.Title}}</a></li>
       {{end}}
     {{end}}
     </ul>
@@ -17,7 +17,7 @@
     <ul>
     {{range $index, $val := .Posts}}
       {{if lessthan $index 10 }}
-      <li>{{$val.Title}}</li>
+      <li><a href="/bol-admin?post_id={{$val.Id}}">{{$val.Title}}</a></li>
       {{end}}
     {{end}}
     </ul>
@@ -30,7 +30,7 @@
     <ul>
     {{range $index, $val := .Categories}}
       {{if lessthan $index 10 }}
-      <li>{{$val.Name}}</li>
+      <li><a href="/bol-admin?category_id={{$val.Id}}">{{$val.Name}}</a></li>
       {{end}}
     {{end}}
     </ul>
@@ -43,7 +43,7 @@
     <ul>
     {{range $index, $val := .Images}}
       {{if lessthan $index 10 }}
-      <li>{{$val.Title}}</li>
+      <li><a href="/bol-admin?image_id={{$val.Id}}">{{$val.Title}}</a></li>
       {{end}}
     {{end}}
     </ul>
@@ -55,7 +55,7 @@
   {{if .Users}}
     <ul>
     {{range $val := .Users}}
-      <li>{{$val.Username}}</li>
+      <li><a href="/bol-admin?user_id={{$val.Id}}">{{$val.Username}}</a></li>
     {{end}}
     </ul>
   {{else}}

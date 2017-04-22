@@ -17,6 +17,18 @@ func GetCategories() ([]*Category, error) {
 	return categories, nil
 }
 
+func GetCountryById(id int) (Country, error) {
+	country := Country{Id: id}
+	var err error
+	err = o.Raw("SELECT * FROM counties WHERE id = ?", id).QueryRow(&country)
+
+	if err != nil {
+		Verbose("GetCountryById: %v", err)
+		return country, err
+	}
+	return country, nil
+}
+
 func GetImages() ([]*Image, error) {
 	images := []*Image{}
 	var err error

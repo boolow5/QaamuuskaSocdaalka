@@ -37,6 +37,9 @@ type Image struct {
 func (post *Post) TableName() string {
 	return "posts"
 }
+func (this *Post) SetId(id int) {
+	this.Id = id
+}
 func (this *Post) Valid() bool {
 	return (len(this.Title) > 1 && len(this.Content) > 1 && this.Author.Id > 0)
 }
@@ -46,6 +49,9 @@ func (this *Post) String() string {
 
 func (img *Image) TableName() string {
 	return "images"
+}
+func (this *Image) SetId(id int) {
+	this.Id = id
 }
 func (this *Image) Valid() bool {
 	return (len(this.Url) > 1)
@@ -57,6 +63,9 @@ func (this *Image) String() string {
 // category
 func (img *Category) TableName() string {
 	return "category"
+}
+func (this *Category) SetId(id int) {
+	this.Id = id
 }
 func (this *Category) Valid() bool {
 	return (len(this.Name) > 1)
