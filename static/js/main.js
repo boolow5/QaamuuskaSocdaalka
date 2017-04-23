@@ -126,6 +126,8 @@ $("#user-form").submit(function(e){
 // user-form
 $("#category-form").submit(function(e){
   e.preventDefault();
+  console.log(this.action);
+  console.log("updating category...");
   SubmitForm("category-form", this.action, this.method, true);
 });
 
@@ -179,6 +181,11 @@ function SubmitForm(id, url, method, refresh) {
       console.log('Error');
       if (result) {
         console.log(result);
+        if (result["error"]) {
+          ShowMessage("error");
+          translate(result, ["#error > .message"])
+
+        }
       }
     }
   });
