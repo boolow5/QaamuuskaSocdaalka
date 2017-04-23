@@ -381,6 +381,50 @@ func (this *AdminController) AddCategory() {
 	this.ServeJSON()
 }
 
+func (this *AdminController) UpdateCategory() {
+	newCategory := models.Category{}
+
+	responseMessage := map[string]interface{}{}
+	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&newCategory)
+	if err != nil {
+		responseMessage["error"] = "category parsing error"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+
+	category_id, _ := strconv.Atoi(this.Ctx.Input.Param(":category_id"))
+	newCategory.Id = category_id
+
+	oldCategory, _ := models.GetCategoryById(category_id)
+
+	newCategory.CreatedAt = oldCategory.CreatedAt
+	newCategory.UpdatedAt = time.Now()
+
+	fmt.Println("OldCategory", oldCategory.Name)
+	fmt.Println("NewCategory", newCategory.Name)
+
+	saved, err := models.UpdateItem(&oldCategory, &newCategory)
+	if err != nil {
+		responseMessage["error"] = "category saving error"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+	if !saved {
+		responseMessage["error"] = "category-not-saved"
+		responseMessage["explation"] = "I don't know why"
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+	responseMessage["success"] = "updated category"
+	this.Data["json"] = responseMessage
+	this.ServeJSON()
+}
+
 func (this *AdminController) AddImage() {
 	fmt.Println("AddImage")
 	flash := beego.NewFlash()
