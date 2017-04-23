@@ -43,6 +43,6 @@
   </div>
 
   <div class="copyright">
-    <div class="center-text">All Rights Reserved &copy; 2017 Mahdi Bolow</div>
+    <div class="center-text">All Rights Reserved &copy; 2017 <a href="http://bolow.in">Mahdi Bolow</a></div>
   </div>
 </footer>
