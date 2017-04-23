@@ -17,7 +17,7 @@ func GetPopularPosts(limit int) (popularPosts []*Post, err error) {
 
 func GetPostById(post_id int) (post Post) {
 	// get the post
-	err := o.Raw("SELECT * FROM posts WHERE id = ? AND save_as_draft = 0", post_id).QueryRow(&post)
+	err := o.Raw("SELECT * FROM posts WHERE id = ? ", post_id).QueryRow(&post)
 	if err != nil {
 		fmt.Println(err)
 		return post
