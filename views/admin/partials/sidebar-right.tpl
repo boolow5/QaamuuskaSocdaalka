@@ -4,7 +4,7 @@
     <ul>
     {{range $index, $val := .Drafts}}
       {{if lessthan $index 10 }}
-      <li><a href="/bol-admin?draft_id={{$val.Id}}">{{$val.Title}}</a></li>
+      <li><a href="/bol-admin?post_id={{$val.Id}}">{{$val.Title}}</a></li>
       {{end}}
     {{end}}
     </ul>
