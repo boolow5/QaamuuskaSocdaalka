@@ -1,3 +1,4 @@
 *.db
 static/uploads
 QaamuuskaSocdaalka
+dump.rdb
