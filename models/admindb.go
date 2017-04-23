@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"log"
 )
 
@@ -27,6 +28,18 @@ func GetCountryById(id int) (Country, error) {
 		return country, err
 	}
 	return country, nil
+}
+
+func GetCategoryById(id int) (Category, error) {
+	category := Category{Id: id}
+	var err error
+	err = o.Raw("SELECT * FROM category WHERE id = ?", id).QueryRow(&category)
+
+	if err != nil {
+		Verbose("GetCategoryById: %v", err)
+		return category, err
+	}
+	return category, nil
 }
 
 func GetImages() ([]*Image, error) {
@@ -109,10 +122,12 @@ func UpdateItem(oldItem, newItem MyModel) (bool, error) {
 	}
 	rows_affected, err := o.Update(newItem)
 	if err != nil {
+		fmt.Println("FailUpdate:", newItem)
 		o.Rollback()
 		return false, err
 	}
 	if rows_affected < 1 {
+		fmt.Println("NotUpdatedItem:", newItem)
 		o.Rollback()
 		return false, errors.New("No rows affected")
 	}
