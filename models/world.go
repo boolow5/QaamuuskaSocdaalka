@@ -41,8 +41,11 @@ type City struct {
 	UpdatedAt time.Time `json:"updated_at" orm:"auto_now;type(datetime)"`
 }
 
-func (City *City) TableName() string {
+func (this *City) TableName() string {
 	return "Cities"
+}
+func (this *City) SetId(id int) {
+	this.Id = id
 }
 func (this *City) Valid() bool {
 	return (len(this.Name) > 1 && this.Country.Id > 0)
@@ -54,6 +57,9 @@ func (this *City) String() string {
 // Country
 func (img *Country) TableName() string {
 	return "Countries"
+}
+func (this *Country) SetId(id int) {
+	this.Id = id
 }
 func (this *Country) Valid() bool {
 	return (len(this.Name) > 1 && this.CapitalCity.Id > 0)

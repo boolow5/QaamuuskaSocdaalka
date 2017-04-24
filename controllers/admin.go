@@ -35,12 +35,59 @@ func (this *AdminController) GetWorldForm() {
 	this.Data["Categories"], _ = models.GetCategories()
 	this.Data["Images"], _ = models.GetImages()
 	this.Data["Users"], _ = models.GetUsers()
-	SetAdminTemplate("admin/country.tpl", &this.Controller)
+	SetAdminTemplate("admin/world.tpl", &this.Controller)
 }
 
-func (c *AdminController) AddCountry() {
+func (this *AdminController) AddCountry() {
+	country := models.Country{}
 
-	SetAdminTemplate("tplName", &c.Controller)
+	responseMessage := map[string]interface{}{}
+	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&country)
+	if err != nil {
+		responseMessage["error"] = "country parsing error"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+
+	saved := models.SaveItem(&country)
+	if !saved {
+		responseMessage["error"] = "country-not-saved"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+	responseMessage["success"] = "added-country"
+	this.Data["json"] = responseMessage
+	this.ServeJSON()
+}
+
+func (this *AdminController) AddCity() {
+	city := models.City{}
+
+	responseMessage := map[string]interface{}{}
+	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&city)
+	if err != nil {
+		responseMessage["error"] = "city parsing error"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+
+	saved := models.SaveItem(&city)
+	if !saved {
+		responseMessage["error"] = "city-not-saved"
+		responseMessage["explation"] = err.Error()
+		this.Data["json"] = responseMessage
+		this.ServeJSON()
+		return
+	}
+	responseMessage["success"] = "added-city"
+	this.Data["json"] = responseMessage
+	this.ServeJSON()
 }
 
 func (c *AdminController) Get() {

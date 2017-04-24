@@ -1,4 +1,4 @@
-<h1 class="column-header"><a href="#"> {{i18n $.Lang "admin forms"}}</a></h1>
+City<h1 class="column-header"><a href="#"> {{i18n $.Lang "admin forms"}}</a></h1>
 {{if .LoggedIn}}
 <div class="admin-forms">
 
@@ -66,6 +66,53 @@
       </div>
     </form>
     {{end}}
+
+    <h1 class="column-header"><a href="#"> {{i18n $.Lang "city form"}}</a></h1>
+
+    {{if .City}}
+    <form id="category-form" method="post" action="/bol-admin/update/city">
+      <div class="form-group">
+        {{ .xsrfdata }}
+        <input type="text" name="name" value='{{.City.Name}}' class="form-control" placeholder='{{i18n $.Lang "name"}}'>
+        <select class="form-control" name="capital_city">
+          <option value="0">{{i18n $.Lang "select capital city"}}</option>
+          {{range $val := .Country}}
+          <option value="{{$val.Id}}">{{$val.Name}}</option>
+          {{end}}
+        </select>
+
+        <input type="text" value="{{.City.Population}}" name="population" class="form-control" placeholder='{{i18n $.Lang "population"}}'>
+        <input type="text" value="{{.City.Area}}" name="area" class="form-control" placeholder='{{i18n $.Lang "area"}}'>
+        <input type="text" value="{{.City.AverageCostOfLiving}}" name="cost_of_living" class="form-control" placeholder='{{i18n $.Lang "average cost of living"}}'>
+
+        <div class="">
+          <button class="btn btn-primary">{{i18n $.Lang "update"}}</button>
+          <input class="btn btn-warning" type="reset" value='{{i18n $.Lang "clear"}}'/>
+        </div>
+      </div>
+    </form>
+    {{else}}
+    <form id="category-form" method="post" action="/bol-admin/add/city">
+      <div class="form-group">
+        {{ .xsrfdata }}
+        <input type="text" name="name" class="form-control" placeholder='{{i18n $.Lang "name"}}'>
+        <select class="form-control" name="capital_city">
+          <option value="0">{{i18n $.Lang "select country"}}</option>
+          {{range $val := .Country}}
+          <option value="{{$val.Id}}">{{i18n $.Lang $val.Name}}</option>
+          {{end}}
+        </select>
+        <input type="text" name="population" class="form-control" placeholder='{{i18n $.Lang "population"}}'>
+        <input type="text" name="area" class="form-control" placeholder='{{i18n $.Lang "area"}}'>
+        <input type="text" name="cost_of_living" class="form-control" placeholder='{{i18n $.Lang "average cost of living"}}'>
+        <div class="">
+          <button class="btn btn-primary">{{i18n $.Lang "save"}}</button>
+          <input class="btn btn-warning" type="reset" value='{{i18n $.Lang "clear"}}'/>
+        </div>
+      </div>
+    </form>
+    {{end}}
+
 
   </div>
 

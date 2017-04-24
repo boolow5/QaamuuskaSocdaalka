@@ -26,5 +26,6 @@ func init() {
 	beego.Router("/bol-admin/login", &controllers.AdminController{}, "post:Login")
 	beego.Router("/bol-admin/logout", &controllers.AdminController{}, "*:Logout")
 
-	beego.Router("/bol-admin/add/country", &controllers.AdminController{}, "get:GetWorldForm;post:AddCountry")
+	beego.Router("/bol-admin/world", &controllers.AdminController{}, "get:GetWorldForm")
+	beego.Router("/bol-admin/add/country", &controllers.AdminController{}, "post:AddCountry")
 }
