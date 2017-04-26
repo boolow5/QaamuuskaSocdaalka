@@ -28,4 +28,5 @@ func init() {
 
 	beego.Router("/bol-admin/world", &controllers.AdminController{}, "get:GetWorldForm")
 	beego.Router("/bol-admin/add/country", &controllers.AdminController{}, "post:AddCountry")
+	beego.Router("/bol-admin/add/city", &controllers.AdminController{}, "post:AddCity")
 }
