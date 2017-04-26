@@ -18,6 +18,30 @@ func GetCategories() ([]*Category, error) {
 	return categories, nil
 }
 
+func GetCountries() ([]*Country, error) {
+	countries := []*Country{}
+	var err error
+	_, err = o.Raw("SELECT * FROM countries ORDER BY name").QueryRows(&countries) // .QueryTable("countries").OrderBy("-id").All(&countries)
+
+	if err != nil {
+		Verbose("GetCountries: %v", err)
+		return countries, err
+	}
+	return countries, nil
+}
+
+func GetCities() ([]*City, error) {
+	cities := []*City{}
+	var err error
+	_, err = o.Raw("SELECT * FROM Cities ORDER BY name").QueryRows(&cities) // .QueryTable("Cities").OrderBy("-id").All(&cities)
+
+	if err != nil {
+		Verbose("GetCities: %v", err)
+		return cities, err
+	}
+	return cities, nil
+}
+
 func GetCountryById(id int) (Country, error) {
 	country := Country{Id: id}
 	var err error
