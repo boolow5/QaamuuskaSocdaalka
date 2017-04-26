@@ -30,6 +30,10 @@ func (this *AdminController) GetWorldForm() {
 	} else {
 		// anything to do with other methods
 	}
+	// get select items
+	this.Data["Countries"], _ = models.GetCountries()
+	this.Data["Cities"], _ = models.GetCities()
+
 	this.Data["message"] = flash.Data
 	this.Data["Drafts"], _ = models.GetDrafts(0, 0)
 	this.Data["Categories"], _ = models.GetCategories()
@@ -39,10 +43,10 @@ func (this *AdminController) GetWorldForm() {
 }
 
 func (this *AdminController) AddCountry() {
-	country := models.Country{}
+	form := models.CountryForm{}
 
 	responseMessage := map[string]interface{}{}
-	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&country)
+	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&form)
 	if err != nil {
 		responseMessage["error"] = "country parsing error"
 		responseMessage["explation"] = err.Error()
@@ -51,7 +55,9 @@ func (this *AdminController) AddCountry() {
 		return
 	}
 
-	saved := models.SaveItem(&country)
+	country := form.New()
+
+	saved := models.SaveItem(country)
 	if !saved {
 		responseMessage["error"] = "country-not-saved"
 		responseMessage["explation"] = err.Error()
@@ -65,10 +71,10 @@ func (this *AdminController) AddCountry() {
 }
 
 func (this *AdminController) AddCity() {
-	city := models.City{}
+	form := models.CityForm{}
 
 	responseMessage := map[string]interface{}{}
-	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&city)
+	err := json.NewDecoder(this.Ctx.Request.Body).Decode(&form)
 	if err != nil {
 		responseMessage["error"] = "city parsing error"
 		responseMessage["explation"] = err.Error()
@@ -77,7 +83,9 @@ func (this *AdminController) AddCity() {
 		return
 	}
 
-	saved := models.SaveItem(&city)
+	city := form.New()
+
+	saved := models.SaveItem(city)
 	if !saved {
 		responseMessage["error"] = "city-not-saved"
 		responseMessage["explation"] = err.Error()

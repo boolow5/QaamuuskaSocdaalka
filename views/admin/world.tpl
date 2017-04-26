@@ -1,4 +1,4 @@
-City<h1 class="column-header"><a href="#"> {{i18n $.Lang "admin forms"}}</a></h1>
+<h1 class="column-header"><a href="#"> {{i18n $.Lang "admin forms"}}</a></h1>
 {{if .LoggedIn}}
 <div class="admin-forms">
 
@@ -7,7 +7,7 @@ City<h1 class="column-header"><a href="#"> {{i18n $.Lang "admin forms"}}</a></h1
     <h1 class="column-header"><a href="#"> {{i18n $.Lang "new country"}}</a></h1>
 
     {{if .Country}}
-    <form id="category-form" method="post" action="/bol-admin/update/country">
+    <form class="admin-form" id="country-form" method="post" action="/bol-admin/update/country">
       <div class="form-group">
         {{ .xsrfdata }}
         <input type="text" name="name" value='{{.Country.Name}}' class="form-control" placeholder='{{i18n $.Lang "name"}}'>
@@ -24,11 +24,11 @@ City<h1 class="column-header"><a href="#"> {{i18n $.Lang "admin forms"}}</a></h1
         <input type="text" value="{{.Country.SouthernBorder}}" name="southern_border" class="form-control" placeholder='{{i18n $.Lang "southern border"}}'>
         <input type="text" value="{{.Country.WesternBorder}}" name="western_border" class="form-control" placeholder='{{i18n $.Lang "western border"}}'>
         <input type="text" value="{{.Country.Location}}" name="location" class="form-control" placeholder='{{i18n $.Lang "location"}}'>
-        <input type="text" value="{{.Country.Population}}" name="population" class="form-control" placeholder='{{i18n $.Lang "population"}}'>
-        <input type="text" value="{{.Country.Area}}" name="area" class="form-control" placeholder='{{i18n $.Lang "area"}}'>
-        <input type="text" value="{{.Country.AverageCostOfLiving}}" name="cost_of_living" class="form-control" placeholder='{{i18n $.Lang "average cost of living"}}'>
-        <input type="text" value="{{.Country.AverageVisaCost}}" name="average_visa_cost" class="form-control" placeholder='{{i18n $.Lang "average_visa_cost"}}'>
-        <input type="text" value="{{.Country.NaturalizationPeriodLength}}" name="naturalization_period_length" class="form-control" placeholder='{{i18n $.Lang "naturalization period length"}}'>
+        <input type="number" min="0" value="{{.Country.Population}}" name="population" class="form-control" placeholder='{{i18n $.Lang "population"}}'>
+        <input type="number" min="0" value="{{.Country.Area}}" name="area" class="form-control" placeholder='{{i18n $.Lang "area"}}'>
+        <input type="number" min="0" value="{{.Country.AverageCostOfLiving}}" name="cost_of_living" class="form-control" placeholder='{{i18n $.Lang "average cost of living"}}'>
+        <input type="number" min="0" value="{{.Country.AverageVisaCost}}" name="average_visa_cost" class="form-control" placeholder='{{i18n $.Lang "average_visa_cost"}}'>
+        <input type="number" min="0" value="{{.Country.NaturalizationPeriodLength}}" name="naturalization_period_length" class="form-control" placeholder='{{i18n $.Lang "naturalization period length"}}'>
         <div class="">
           <button class="btn btn-primary">{{i18n $.Lang "update"}}</button>
           <input class="btn btn-warning" type="reset" value='{{i18n $.Lang "clear"}}'/>
@@ -36,7 +36,7 @@ City<h1 class="column-header"><a href="#"> {{i18n $.Lang "admin forms"}}</a></h1
       </div>
     </form>
     {{else}}
-    <form id="category-form" method="post" action="/bol-admin/add/country">
+    <form class="admin-form" id="country-form" method="post" action="/bol-admin/add/country">
       <div class="form-group">
         {{ .xsrfdata }}
         <input type="text" name="name" class="form-control" placeholder='{{i18n $.Lang "name"}}'>
@@ -53,11 +53,11 @@ City<h1 class="column-header"><a href="#"> {{i18n $.Lang "admin forms"}}</a></h1
         <input type="text" name="southern_border" class="form-control" placeholder='{{i18n $.Lang "southern border"}}'>
         <input type="text" name="western_border" class="form-control" placeholder='{{i18n $.Lang "western border"}}'>
         <input type="text" name="location" class="form-control" placeholder='{{i18n $.Lang "location"}}'>
-        <input type="text" name="population" class="form-control" placeholder='{{i18n $.Lang "population"}}'>
-        <input type="text" name="area" class="form-control" placeholder='{{i18n $.Lang "area"}}'>
-        <input type="text" name="cost_of_living" class="form-control" placeholder='{{i18n $.Lang "average cost of living"}}'>
-        <input type="text" name="average_visa_cost" class="form-control" placeholder='{{i18n $.Lang "average_visa_cost"}}'>
-        <input type="text" name="naturalization_period_length" class="form-control" placeholder='{{i18n $.Lang "naturalization period length"}}'>
+        <input type="number" min="0" min="0" name="population" class="form-control" placeholder='{{i18n $.Lang "population"}}'>
+        <input type="number" min="0" name="area" class="form-control" placeholder='{{i18n $.Lang "area"}}'>
+        <input type="number" min="0" name="cost_of_living" class="form-control" placeholder='{{i18n $.Lang "average cost of living"}}'>
+        <input type="number" min="0" name="average_visa_cost" class="form-control" placeholder='{{i18n $.Lang "average_visa_cost"}}'>
+        <input type="number" min="0" name="naturalization_period_length" class="form-control" placeholder='{{i18n $.Lang "naturalization period length"}}'>
 
         <div class="">
           <button class="btn btn-primary">{{i18n $.Lang "save"}}</button>
@@ -70,20 +70,20 @@ City<h1 class="column-header"><a href="#"> {{i18n $.Lang "admin forms"}}</a></h1
     <h1 class="column-header"><a href="#"> {{i18n $.Lang "city form"}}</a></h1>
 
     {{if .City}}
-    <form id="category-form" method="post" action="/bol-admin/update/city">
+    <form class="admin-form" id="city-form" method="post" action="/bol-admin/update/city">
       <div class="form-group">
         {{ .xsrfdata }}
         <input type="text" name="name" value='{{.City.Name}}' class="form-control" placeholder='{{i18n $.Lang "name"}}'>
         <select class="form-control" name="capital_city">
           <option value="0">{{i18n $.Lang "select capital city"}}</option>
-          {{range $val := .Country}}
+          {{range $val := .Countries}}
           <option value="{{$val.Id}}">{{$val.Name}}</option>
           {{end}}
         </select>
 
-        <input type="text" value="{{.City.Population}}" name="population" class="form-control" placeholder='{{i18n $.Lang "population"}}'>
-        <input type="text" value="{{.City.Area}}" name="area" class="form-control" placeholder='{{i18n $.Lang "area"}}'>
-        <input type="text" value="{{.City.AverageCostOfLiving}}" name="cost_of_living" class="form-control" placeholder='{{i18n $.Lang "average cost of living"}}'>
+        <input type="number" min="0" min="0" value="{{.City.Population}}" name="population" class="form-control" placeholder='{{i18n $.Lang "population"}}'>
+        <input type="number" min="0" value="{{.City.Area}}" name="area" class="form-control" placeholder='{{i18n $.Lang "area"}}'>
+        <input type="number" min="0" value="{{.City.AverageCostOfLiving}}" name="cost_of_living" class="form-control" placeholder='{{i18n $.Lang "average cost of living"}}'>
 
         <div class="">
           <button class="btn btn-primary">{{i18n $.Lang "update"}}</button>
@@ -92,19 +92,19 @@ City<h1 class="column-header"><a href="#"> {{i18n $.Lang "admin forms"}}</a></h1
       </div>
     </form>
     {{else}}
-    <form id="category-form" method="post" action="/bol-admin/add/city">
+    <form class="admin-form" id="city-form" method="post" action="/bol-admin/add/city">
       <div class="form-group">
         {{ .xsrfdata }}
         <input type="text" name="name" class="form-control" placeholder='{{i18n $.Lang "name"}}'>
         <select class="form-control" name="capital_city">
           <option value="0">{{i18n $.Lang "select country"}}</option>
-          {{range $val := .Country}}
+          {{range $val := .Countries}}
           <option value="{{$val.Id}}">{{i18n $.Lang $val.Name}}</option>
           {{end}}
         </select>
-        <input type="text" name="population" class="form-control" placeholder='{{i18n $.Lang "population"}}'>
-        <input type="text" name="area" class="form-control" placeholder='{{i18n $.Lang "area"}}'>
-        <input type="text" name="cost_of_living" class="form-control" placeholder='{{i18n $.Lang "average cost of living"}}'>
+        <input type="number" min="0" min="0" name="population" class="form-control" placeholder='{{i18n $.Lang "population"}}'>
+        <input type="number" min="0" name="area" class="form-control" placeholder='{{i18n $.Lang "area"}}'>
+        <input type="number" min="0" name="cost_of_living" class="form-control" placeholder='{{i18n $.Lang "average cost of living"}}'>
         <div class="">
           <button class="btn btn-primary">{{i18n $.Lang "save"}}</button>
           <input class="btn btn-warning" type="reset" value='{{i18n $.Lang "clear"}}'/>

@@ -131,6 +131,54 @@ $("#category-form").submit(function(e){
   SubmitForm("category-form", this.action, this.method, true);
 });
 
+// admin-form
+$(".admin-form").submit(function(e){
+  e.preventDefault();
+  console.log(this.action);
+  var id = this.attributes['id'].value;
+  if (!id) {
+    ShowMessage("error");
+    translate({"error":"this form has no ID"}, ["#error > .message"])
+  }
+  $.ajax({
+    url: this.action,
+    type: this.method,
+    data: JSON.stringify(getFormData(id)),
+    contentType: "application/json",
+    success: function(result) {
+      console.log(result);
+      console.log('Success');
+      if (result) {
+        if (result["error"]) {
+          ShowMessage("error");
+          translate(result, ["#error > .message"])
+
+        } else if (result["success"]) {
+          ResetForm(id)
+          translate(result, ["#success > span.message"])
+          ShowMessage("#success");
+          console.log("after 3 seconds the page will reload");
+          if (refresh === true) {
+            reloadAfter(5000)
+            console.log("waited for 3 seconds");
+          }
+        }
+      }
+    },
+    error: function(result) {
+      console.log('Error');
+      if (result) {
+        console.log(result);
+        if (result["error"]) {
+          ShowMessage("error");
+          translate(result, ["#error > .message"])
+
+        }
+      }
+    }
+  });
+});
+
 // user-form
 $("#post-form").submit(function(e){
   e.preventDefault();
@@ -240,6 +288,6 @@ function ShowMessage(id) {
   }
 }
 
-$(document).ready(function(e) {
-  console.log("document is ready");
-})
+// $(document).ready(function(e) {
+//
+// })
