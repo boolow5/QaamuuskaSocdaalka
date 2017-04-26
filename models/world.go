@@ -2,15 +2,17 @@ package models
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 )
 
 type Country struct {
-	Id                int    `json:"id" orm:"auto"`
-	Name              string `json:"name" orm:"size(300)"`
-	Citizen           string `json:"citizen" orm:"null"`
-	OfficialLanguages string `json:"official_languages" orm:"null"`
-	CapitalCity       *City  `json:"capital_city" orm:"rel(one)" orm:"null"`
+	Id                int     `json:"id" orm:"auto"`
+	Name              string  `json:"name" orm:"size(300)"`
+	Citizen           string  `json:"citizen" orm:"null"`
+	OfficialLanguages string  `json:"official_languages" orm:"null"`
+	CapitalCity       *City   `json:"capital_city" orm:"rel(one)" orm:"null"`
+	Cities            []*City `json:"cities" orm:"rel(m2m)"`
 
 	NorthernBorder string `json:"northern_border" orm:"size(500)" orm:"null"`
 	EasternBorder  string `json:"eastern_border" orm:"size(500)" orm:"null"`
@@ -28,6 +30,45 @@ type Country struct {
 	UpdatedAt time.Time `json:"updated_at" orm:"auto_now;type(datetime)"`
 }
 
+type CountryForm struct {
+	Name              string `json:"name"`
+	Citizen           string `json:"citizen"`
+	OfficialLanguages string `json:"official_languages"`
+	CapitalCityId     string `json:"capital_city"`
+
+	NorthernBorder string `json:"northern_border"`
+	EasternBorder  string `json:"eastern_border"`
+	SouthernBorder string `json:"southern_border"`
+	WesternBorder  string `json:"western_border"`
+
+	Location                   string  `json:"location"`
+	Population                 int     `json:"population"`
+	Area                       float32 `json:"area"`
+	AverageCostOfLiving        float32 `json:"cost_of_living"`
+	AverageVisaCost            float32 `json:"average_visa_cost"`
+	NaturalizationPeriodLength float32 `json:"naturalization_period_length"`
+}
+
+func (this *CountryForm) New() *Country {
+	capital_id, _ := strconv.Atoi(this.CapitalCityId)
+	return &Country{
+		Name:                       this.Name,
+		Citizen:                    this.Citizen,
+		OfficialLanguages:          this.OfficialLanguages,
+		CapitalCity:                &City{Id: capital_id},
+		NorthernBorder:             this.NorthernBorder,
+		EasternBorder:              this.EasternBorder,
+		SouthernBorder:             this.SouthernBorder,
+		WesternBorder:              this.WesternBorder,
+		Location:                   this.Location,
+		Population:                 this.Population,
+		Area:                       this.Area,
+		AverageCostOfLiving:        this.AverageCostOfLiving,
+		AverageVisaCost:            this.AverageVisaCost,
+		NaturalizationPeriodLength: this.NaturalizationPeriodLength,
+	}
+}
+
 type City struct {
 	Id      int      `json:"id" orm:"auto"`
 	Name    string   `json:"name" orm:"size(300)"`
@@ -39,6 +80,25 @@ type City struct {
 
 	CreatedAt time.Time `json:"created_at" orm:"auto_now_add;type(datetime)"`
 	UpdatedAt time.Time `json:"updated_at" orm:"auto_now;type(datetime)"`
+}
+
+type CityForm struct {
+	Name      string `json:"name"`
+	CountryId int    `json:"country"`
+
+	Population          int     `json:"population"`
+	Area                float32 `json:"area"`
+	AverageCostOfLiving float32 `json:"cost_of_living" orm:"null"`
+}
+
+func (this *CityForm) New() *City {
+	return &City{
+		Name:                this.Name,
+		Country:             &Country{Id: this.CountryId},
+		Population:          this.Population,
+		Area:                this.Area,
+		AverageCostOfLiving: this.AverageCostOfLiving,
+	}
 }
 
 func (this *City) TableName() string {
@@ -56,7 +116,7 @@ func (this *City) String() string {
 
 // Country
 func (img *Country) TableName() string {
-	return "Countries"
+	return "countries"
 }
 func (this *Country) SetId(id int) {
 	this.Id = id
